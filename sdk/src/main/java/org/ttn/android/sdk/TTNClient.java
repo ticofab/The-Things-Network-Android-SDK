@@ -18,10 +18,8 @@ package org.ttn.android.sdk;/*
  */
 
 import org.ttn.android.sdk.api.client.ApiClientV0;
-import org.ttn.android.sdk.domain.CollectionContainer;
 import org.ttn.android.sdk.domain.packet.Packet;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Callback;
@@ -32,15 +30,15 @@ public class TTNClient {
 
     final ApiClientV0 mApiClient = new ApiClientV0();
 
-    public List<Packet> get(final Listener listener) {
-        return get(null, listener);
+    public void get(final Listener listener) {
+        get(null, listener);
     }
 
-    public List<Packet> get(String timespan, final Listener listener) {
-        mApiClient.getNodeService().get(timespan, new Callback<CollectionContainer<Packet>>() {
+    public void get(String timespan, final Listener listener) {
+        mApiClient.getNodeService().get(timespan, new Callback<List<Packet>>() {
             @Override
-            public void success(CollectionContainer<Packet> container, Response response) {
-                listener.onResult(new ArrayList<>(container.mCollection));
+            public void success(List<Packet> list, Response response) {
+                listener.onResult(list);
             }
 
             @Override

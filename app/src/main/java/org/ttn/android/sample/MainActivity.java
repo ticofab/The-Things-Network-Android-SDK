@@ -2,14 +2,22 @@ package org.ttn.android.sample;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import org.ttn.android.sdk.Listener;
+import org.ttn.android.sdk.TTNClient;
+import org.ttn.android.sdk.domain.packet.Packet;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    final TTNClient mTTNClient = new TTNClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +30,17 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                mTTNClient.get(new Listener() {
+                    @Override
+                    public void onResult(List<Packet> packets) {
+                        Log.d("t", "got packets! " + packets.size());
+                    }
+
+                    @Override
+                    public void onError() {
+                        Log.d("t", "error!");
+                    }
+                });
             }
         });
     }

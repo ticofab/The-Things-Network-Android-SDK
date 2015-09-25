@@ -3,13 +3,15 @@ package org.ttn.android.sdk.api.converter.base;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.ttn.android.sdk.domain.CollectionContainer;
+import org.json.JSONTokener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit.converter.ConversionException;
 import retrofit.converter.Converter;
@@ -45,32 +47,27 @@ abstract public class JsonConverter implements Converter {
 
     @Override
     public Object fromBody(TypedInput body, Type type) throws ConversionException {
-        Object obj;
+        Object obj = null;
         try {
             String jsonStr = streamToString(body.in());
-            JSONObject jsonObj = new JSONObject(jsonStr);
-
-            // it feels like the collection logic belongs here as it's a common things to do.
-            // but it feels like there could be a better place.
-            if (jsonObj.has(JSON_KEY_COLLECTION)) {
-                // we need to deserialize a collection of objects.
-
-                // using a raw Object container - Retrofit will take care of the rest
-                CollectionContainer<Object> coll = new CollectionContainer<>();
-
-                JSONArray jsonArray = jsonObj.getJSONArray(JSON_KEY_COLLECTION);
+            Object json = new JSONTokener(jsonStr).nextValue();
+            if (json instanceof JSONArray) {
+                JSONArray jsonArray = (JSONArray) json;
+                List<Object> coll = new ArrayList<>();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonItem = jsonArray.getJSONObject(i);
                     Object item = fromJson(jsonItem);
-                    coll.mCollection.add(item);
+                    coll.add(item);
                 }
 
                 obj = coll;
 
-            } else {
+            } else if (json instanceof JSONObject) {
                 // no collection.
+                JSONObject jsonObj = (JSONObject) json;
                 obj = fromJson(jsonObj);
             }
+
         } catch (IOException | JSONException e) {
             throw new ConversionException(e.getMessage());
         }

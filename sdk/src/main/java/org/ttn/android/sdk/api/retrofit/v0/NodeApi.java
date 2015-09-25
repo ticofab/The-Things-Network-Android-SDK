@@ -3,6 +3,8 @@ package org.ttn.android.sdk.api.retrofit.v0;
 import org.ttn.android.sdk.domain.CollectionContainer;
 import org.ttn.android.sdk.domain.packet.Packet;
 
+import java.util.List;
+
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Path;
@@ -13,7 +15,7 @@ public interface NodeApi {
 
     @GET(NODES_API_BASE_URL)
     void get(@Query("time_span") String timeSpan,
-             Callback<CollectionContainer<Packet>> callback);
+             Callback<List<Packet>> callback);
 
     @GET(NODES_API_BASE_URL + "/{node_eui}")
     void get(@Path("node_eui") String nodeEui,

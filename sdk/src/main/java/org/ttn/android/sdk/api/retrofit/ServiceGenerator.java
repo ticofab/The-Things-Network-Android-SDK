@@ -23,7 +23,7 @@ import retrofit.RestAdapter;
  */
 public class ServiceGenerator {
     private static final String PROTOCOL = "http";
-    private static final String API_ADDRESS = "thethingsnetwork.org/api";
+    private static final String API_ADDRESS = "thethingsnetwork.org:80";
 
     private static final String API_ENDPOINT = PROTOCOL + "://" + API_ADDRESS + "/api";
 
