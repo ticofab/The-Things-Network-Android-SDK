@@ -51,7 +51,7 @@ mTTNClient.get(new Listener() {
 License
 --------
 
-    Copyright 2015 Fabio Tiriticco - Fabway
+    Copyright 2015 The Things Network
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -66,4 +66,3 @@ License
     limitations under the License.
 
 [1]: https://github.com/dlew/joda-time-android
-[2]: https://developers.google.com/android/guides/setup
