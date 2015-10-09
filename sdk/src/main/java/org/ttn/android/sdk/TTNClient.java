@@ -1,4 +1,6 @@
-package org.ttn.android.sdk;/*
+package org.ttn.android.sdk;
+
+/*
  * Copyright 2015 The Things Network
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +20,9 @@ package org.ttn.android.sdk;/*
  */
 
 import org.ttn.android.sdk.api.client.ApiClientV0;
+import org.ttn.android.sdk.api.listeners.GatewayStatusListener;
+import org.ttn.android.sdk.api.listeners.PacketListener;
+import org.ttn.android.sdk.domain.gateway.GatewayStatus;
 import org.ttn.android.sdk.domain.packet.Packet;
 
 import java.util.List;
@@ -30,12 +35,36 @@ public class TTNClient {
 
     final ApiClientV0 mApiClient = new ApiClientV0();
 
-    public void get(final Listener listener) {
-        get(null, listener);
+    public void getPackets(String timeSpan,
+                           final PacketListener packetListener) {
+        mApiClient.getNodeService().get(timeSpan, getCallback(packetListener));
     }
 
-    public void get(String timespan, final Listener listener) {
-        mApiClient.getNodeService().get(timespan, new Callback<List<Packet>>() {
+    public void getPacket(String nodeEui,
+                          String timeSpan,
+                          String limit,
+                          String offset,
+                          final PacketListener packetListener) {
+        mApiClient.getNodeService().get(nodeEui, timeSpan, limit, offset, getCallback(packetListener));
+    }
+
+    public void getGatewayStatusList(String timeSpan,
+                                     int limit,
+                                     int offset,
+                                     final GatewayStatusListener gsListener) {
+        mApiClient.getGatewaysService().get(timeSpan, limit, offset, getCallback(gsListener));
+    }
+
+    public void getGatewayStatus(String nodeEui,
+                                 String timeSpan,
+                                 int limit,
+                                 int offset,
+                                 final GatewayStatusListener gsListener) {
+        mApiClient.getGatewaysService().get(nodeEui, timeSpan, limit, offset, getCallback(gsListener));
+    }
+
+    Callback<List<Packet>> getCallback(final PacketListener listener) {
+        return new Callback<List<Packet>>() {
             @Override
             public void success(List<Packet> list, Response response) {
                 listener.onResult(list);
@@ -45,6 +74,21 @@ public class TTNClient {
             public void failure(RetrofitError error) {
                 listener.onError();
             }
-        });
+        };
     }
+
+    Callback<List<GatewayStatus>> getCallback(final GatewayStatusListener listener) {
+        return new Callback<List<GatewayStatus>>() {
+            @Override
+            public void success(List<GatewayStatus> statuses, Response response) {
+                listener.onResult(statuses);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                listener.onError();
+            }
+        };
+    }
+
 }

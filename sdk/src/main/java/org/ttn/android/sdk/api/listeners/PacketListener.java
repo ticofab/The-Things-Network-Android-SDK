@@ -1,4 +1,4 @@
-package org.ttn.android.sdk;
+package org.ttn.android.sdk.api.listeners;
 
 /*
  * Copyright 2015 The Things Network
@@ -23,7 +23,7 @@ import org.ttn.android.sdk.domain.packet.Packet;
 
 import java.util.List;
 
-public interface Listener {
+public interface PacketListener {
     void onResult(List<Packet> packets);
     void onError();
 }

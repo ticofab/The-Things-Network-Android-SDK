@@ -1,6 +1,5 @@
 package org.ttn.android.sdk.api.retrofit.v0;
 
-import org.ttn.android.sdk.domain.CollectionContainer;
 import org.ttn.android.sdk.domain.packet.Packet;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public interface NodeApi {
     @GET(NODES_API_BASE_URL + "/{node_eui}")
     void get(@Path("node_eui") String nodeEui,
              @Query("time_span") String timeSpan,
-             @Query("limit") int limit,
-             @Query("offset") int offset,
-             Callback<Packet> callback);
+             @Query("limit") String limit,
+             @Query("offset") String offset,
+             Callback<List<Packet>> callback);
 }

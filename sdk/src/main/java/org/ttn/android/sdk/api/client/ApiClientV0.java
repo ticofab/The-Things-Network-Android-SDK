@@ -17,21 +17,28 @@ package org.ttn.android.sdk.api.client;/*
  *
  */
 
+import org.ttn.android.sdk.api.converter.GatewayStatusConverter;
 import org.ttn.android.sdk.api.converter.PacketConverter;
 import org.ttn.android.sdk.api.retrofit.ServiceGenerator;
+import org.ttn.android.sdk.api.retrofit.v0.GatewayApi;
 import org.ttn.android.sdk.api.retrofit.v0.NodeApi;
 
 public class ApiClientV0 {
 
     final NodeApi mNodeService;
+    final GatewayApi mGatewayService;
 
     public ApiClientV0() {
         ServiceGenerator serviceGenerator = new ServiceGenerator();
-        PacketConverter packetConverter = new PacketConverter();
-        mNodeService = serviceGenerator.createService(NodeApi.class, packetConverter);
+        mNodeService = serviceGenerator.createService(NodeApi.class, new PacketConverter());
+        mGatewayService = serviceGenerator.createService(GatewayApi.class, new GatewayStatusConverter());
     }
 
     public NodeApi getNodeService() {
         return mNodeService;
+    }
+
+    public GatewayApi getGatewaysService() {
+        return mGatewayService;
     }
 }

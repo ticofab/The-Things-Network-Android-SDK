@@ -6,14 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
-import org.ttn.android.sdk.Listener;
 import org.ttn.android.sdk.TTNClient;
+import org.ttn.android.sdk.api.listeners.PacketListener;
 import org.ttn.android.sdk.domain.packet.Packet;
 
 import java.util.ArrayList;
@@ -40,10 +39,10 @@ import butterknife.ButterKnife;
  * Created by fabiotiriticco on 25/09/15.
  *
  */
-
 public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar mToolbar;
+    @Bind(R.id.node_eui) EditText mNodeEui;
     @Bind(R.id.packet_list) RecyclerView mPacketList;
 
     final TTNClient mTTNClient = new TTNClient();
@@ -82,17 +81,36 @@ public class MainActivity extends AppCompatActivity {
      * Triggers a packet refresh from the APIs.
      */
     void refreshPackets() {
-        mTTNClient.get(new Listener() {
-            @Override
-            public void onResult(List<Packet> packets) {
-                mPackets.addAll(packets);
-                mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onError() {
-                Toast.makeText(MainActivity.this, "Failed to retrieve packets", Toast.LENGTH_LONG).show();
-            }
-        });
+        String nodeEui = mNodeEui.getText().toString();
+        if (TextUtils.isEmpty(nodeEui)) {
+            getPackets();
+        } else {
+            getPacket(nodeEui);
+        }
     }
+
+    void getPackets() {
+        mTTNClient.getPackets(null, packetListener);
+    }
+
+    void getPacket(String nodeEui) {
+        mTTNClient.getPacket(nodeEui, null, null, null, packetListener);
+    }
+
+    PacketListener packetListener = new PacketListener() {
+        @Override
+        public void onResult(List<Packet> packets) {
+            mPackets.clear();
+            if (packets.isEmpty()) {
+                Toast.makeText(MainActivity.this, R.string.no_packets_found, Toast.LENGTH_SHORT).show();
+            }
+            mPackets.addAll(packets);
+            mAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onError() {
+            Toast.makeText(MainActivity.this, R.string.failed_to_retrieve_packets, Toast.LENGTH_LONG).show();
+        }
+    };
 }
