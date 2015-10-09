@@ -1,7 +1,7 @@
 The Things Network - Android SDK
 =======
 
-Android SDK to interact with the API of [The Things Network](http://thethingsnetwork.org) servers.  
+Android SDK to interact with the API of [The Things Network](http://thethingsnetwork.org) servers.
 
 
 Download
@@ -35,7 +35,7 @@ TTNClient mTTNClient = new TTNClient(); // consider injection
 Then use it to get packets, passing a Listener:
 
 ```java
-mTTNClient.get(new Listener() {
+mTTNClient.get("my_node_eui", new PacketListener() {
     @Override
     public void onResult(List<Packet> packets) {
         // got packets
