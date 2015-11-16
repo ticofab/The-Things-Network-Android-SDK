@@ -47,6 +47,10 @@ mTTNClient.get("my_node_eui", new PacketListener() {
     }
 });
 ```
+Sample App
+----------
+
+Currently, all the sample app does is query the API for available packets and displays information about those in a list.
 
 License
 --------
