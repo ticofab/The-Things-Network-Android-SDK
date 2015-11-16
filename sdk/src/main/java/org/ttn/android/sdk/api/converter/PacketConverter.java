@@ -65,8 +65,20 @@ public class PacketConverter extends JsonConverter {
 
         if (jsonObj.has(JSON_KEY_TIME)) {
             String dateStr = jsonObj.getString(JSON_KEY_TIME);
-            DateTime time = ISODateTimeFormat.dateTime().parseDateTime(dateStr);
-            builder.setTime(time);
+            DateTime time = null;
+            try {
+                time = ISODateTimeFormat.dateTime().parseDateTime(dateStr);
+            } catch (IllegalArgumentException e1) {
+                // maybe we need to add a Z at the end? Someone might be sending wrong dates
+                try {
+                    time = ISODateTimeFormat.dateTime().parseDateTime(dateStr + "Z");
+                } catch (IllegalArgumentException e2) {
+                    // pity, nothing to do
+                }
+            }
+            if (time != null) {
+                builder.setTime(time);
+            }
         }
 
         return builder.build();
