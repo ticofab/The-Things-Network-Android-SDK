@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import org.ttn.android.sdk.api.converter.base.JsonConverter;
 import org.ttn.android.sdk.api.converter.base.JsonErrorMessage;
 import org.ttn.android.sdk.domain.gateway.GatewayStatus;
-import org.ttn.android.sdk.domain.packet.Packet;
 
 /*
  * Copyright 2015 The Things Network
@@ -33,6 +32,7 @@ public class GatewayStatusConverter extends JsonConverter {
     public static final String JSON_KEY_LONGITUDE = "longitude";
     public static final String JSON_KEY_TIME = "time";
     public static final String JSON_KEY_EUI = "eui";
+    public static final String JSON_KEY_STATUS_PACKET_COUNT = "status_packet_count";
 
     @Override
     public Object fromJson(JSONObject jsonObj) throws JSONException {
@@ -57,7 +57,11 @@ public class GatewayStatusConverter extends JsonConverter {
         if (jsonObj.has(JSON_KEY_TIME)) {
             String dateStr = jsonObj.getString(JSON_KEY_TIME);
             DateTime time = ISODateTimeFormat.dateTime().parseDateTime(dateStr);
-            builder.setTime(time);
+            builder.setLastSeen(time);
+        }
+
+        if (jsonObj.has(JSON_KEY_STATUS_PACKET_COUNT)) {
+            builder.setStatusPacketcount(jsonObj.getInt(JSON_KEY_STATUS_PACKET_COUNT));
         }
 
         return builder.build();

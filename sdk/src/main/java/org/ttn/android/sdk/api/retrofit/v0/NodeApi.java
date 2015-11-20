@@ -1,12 +1,11 @@
 package org.ttn.android.sdk.api.retrofit.v0;
 
-import org.ttn.android.sdk.domain.packet.Packet;
+import org.ttn.android.sdk.domain.node.Node;
 
 import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.GET;
-import retrofit.http.Path;
 import retrofit.http.Query;
 
 public interface NodeApi {
@@ -14,12 +13,6 @@ public interface NodeApi {
 
     @GET(NODES_API_BASE_URL)
     void get(@Query("time_span") String timeSpan,
-             Callback<List<Packet>> callback);
+             Callback<List<Node>> callback);
 
-    @GET(NODES_API_BASE_URL + "/{node_eui}")
-    void get(@Path("node_eui") String nodeEui,
-             @Query("time_span") String timeSpan,
-             @Query("limit") String limit,
-             @Query("offset") String offset,
-             Callback<List<Packet>> callback);
 }

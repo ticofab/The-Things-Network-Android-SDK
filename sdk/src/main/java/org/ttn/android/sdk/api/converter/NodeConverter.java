@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.ttn.android.sdk.api.converter.base.JsonConverter;
 import org.ttn.android.sdk.api.converter.base.JsonErrorMessage;
+import org.ttn.android.sdk.domain.node.Node;
 import org.ttn.android.sdk.domain.packet.Packet;
 
 /*
@@ -25,47 +26,27 @@ import org.ttn.android.sdk.domain.packet.Packet;
  *
  * Created by fabiotiriticco on 25/09/15.
  */
-public class PacketConverter extends JsonConverter {
+public class NodeConverter extends JsonConverter {
 
-    public static final String JSON_KEY_DATA_RAW = "data_raw";
-    public static final String JSON_KEY_DATA = "data";
-    public static final String JSON_KEY_DATA_PLAIN = "data_plain";
     public static final String JSON_KEY_LAST_GATEWAY_EUI = "last_gateway_eui";
     public static final String JSON_KEY_NODE_EUI = "node_eui";
     public static final String JSON_KEY_PACKETS_COUNT = "packets_count";
-    public static final String JSON_KEY_TIME = "time";
-    public static final String JSON_KEY_DATA_JSON = "data_json";
+    public static final String JSON_KEY_LAST_SEEN = "last_seen";
 
     @Override
     public Object fromJson(JSONObject jsonObj) throws JSONException {
-        Packet.Builder builder = new Packet.Builder();
-
-        if (jsonObj.has(JSON_KEY_DATA)) {
-            builder.setData(jsonObj.getString(JSON_KEY_DATA));
-        }
-
-        if (jsonObj.has(JSON_KEY_DATA_JSON)) {
-            builder.setDataJson(jsonObj.getString(JSON_KEY_DATA_JSON));
-        }
-
-        if (jsonObj.has(JSON_KEY_DATA_PLAIN)) {
-            builder.setDataPlain(jsonObj.getString(JSON_KEY_DATA_PLAIN));
-        }
-
-        if (jsonObj.has(JSON_KEY_DATA_RAW)) {
-            builder.setDataRaw(JSON_KEY_DATA_RAW);
-        }
+        Node.Builder builder = new Node.Builder();
 
         if (jsonObj.has(JSON_KEY_LAST_GATEWAY_EUI)) {
-            builder.setGatewayEui(jsonObj.getString(JSON_KEY_LAST_GATEWAY_EUI));
+            builder.setLastGatewayEui(jsonObj.getString(JSON_KEY_LAST_GATEWAY_EUI));
         }
 
         if (jsonObj.has(JSON_KEY_NODE_EUI)) {
             builder.setNodeEui(jsonObj.getString(JSON_KEY_NODE_EUI));
         }
 
-        if (jsonObj.has(JSON_KEY_TIME)) {
-            String dateStr = jsonObj.getString(JSON_KEY_TIME);
+        if (jsonObj.has(JSON_KEY_LAST_SEEN)) {
+            String dateStr = jsonObj.getString(JSON_KEY_LAST_SEEN);
             DateTime time = null;
             try {
                 time = ISODateTimeFormat.dateTime().parseDateTime(dateStr);
@@ -78,8 +59,12 @@ public class PacketConverter extends JsonConverter {
                 }
             }
             if (time != null) {
-                builder.setTime(time);
+                builder.setLastSeen(time);
             }
+        }
+
+        if (jsonObj.has(JSON_KEY_PACKETS_COUNT)) {
+            builder.setPacketsCount(jsonObj.getInt(JSON_KEY_PACKETS_COUNT));
         }
 
         return builder.build();

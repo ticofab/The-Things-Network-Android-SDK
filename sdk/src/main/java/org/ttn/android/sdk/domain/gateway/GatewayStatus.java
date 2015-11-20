@@ -24,14 +24,16 @@ public class GatewayStatus {
     final Double mLatitude;
     final Double mLongitude;
     final Double mAltitude;
-    final DateTime mTime;
+    final DateTime mLastSeen;
+    final Integer mStatusPacketCount;
 
     public GatewayStatus(Builder builder) {
         mLatitude = builder.mLatitude;
         mLongitude = builder.mLongitude;
         mAltitude = builder.mAltitude;
         mNodeEui = builder.mNodeEui;
-        mTime = builder.mTime;
+        mLastSeen = builder.mLastSeen;
+        mStatusPacketCount = builder.mStatusPacketCount;
     }
 
     public String getNodeEui() {
@@ -51,7 +53,11 @@ public class GatewayStatus {
     }
 
     public DateTime getTime() {
-        return mTime;
+        return mLastSeen;
+    }
+
+    public Integer getStatusPacketCount() {
+        return mStatusPacketCount;
     }
 
     @Override
@@ -70,7 +76,8 @@ public class GatewayStatus {
                     getLongitude().equals(otherGatewayStatus.getLongitude()) &&
                     getAltitude().equals(otherGatewayStatus.getAltitude()) &&
                     getNodeEui().equals(otherGatewayStatus.getNodeEui()) &&
-                    getTime().equals(otherGatewayStatus.getTime());
+                    getTime().equals(otherGatewayStatus.getTime()) &&
+                    getStatusPacketCount().equals(otherGatewayStatus.getStatusPacketCount());
         }
 
         return super.equals(other);
@@ -81,7 +88,8 @@ public class GatewayStatus {
         private Double mLatitude;
         private Double mLongitude;
         private Double mAltitude;
-        private DateTime mTime;
+        private DateTime mLastSeen;
+        private Integer mStatusPacketCount;
 
         public Builder setNodeEui(String nodeEui) {
             mNodeEui = nodeEui;
@@ -103,8 +111,13 @@ public class GatewayStatus {
             return this;
         }
 
-        public Builder setTime(DateTime time) {
-            mTime = time;
+        public Builder setLastSeen(DateTime time) {
+            mLastSeen = time;
+            return this;
+        }
+
+        public Builder setStatusPacketcount(Integer statusPacketcount) {
+            mStatusPacketCount = statusPacketcount;
             return this;
         }
 

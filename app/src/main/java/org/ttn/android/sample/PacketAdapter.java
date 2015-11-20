@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.joda.time.DateTime;
 import org.ttn.android.sdk.domain.packet.Packet;
 
 import java.text.DateFormat;
@@ -52,15 +53,39 @@ public class PacketAdapter extends RecyclerView.Adapter<PacketAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder vh, int position) {
         Packet packet = mPackets.get(position);
-        vh.mDeviceId.setText(packet.getNodeEui());
-        vh.mTime.setText(mDateFormatter.format(packet.getTime().toDate()));
+
+        // node eui
+        String nodeEui = packet.getNodeEui();
+        if (!TextUtils.isEmpty(nodeEui)) {
+            vh.mDeviceId.setVisibility(View.VISIBLE);
+            vh.mDeviceId.setText(packet.getNodeEui());
+        } else {
+            vh.mDeviceId.setVisibility(View.GONE);
+            vh.mDeviceId.setText(null);
+        }
+
+        // timestamp
+        DateTime date = packet.getTime();
+        if (date != null) {
+            vh.mTime.setVisibility(View.VISIBLE);
+            vh.mTime.setText(mDateFormatter.format(packet.getTime().toDate()));
+        } else {
+            vh.mTime.setVisibility(View.GONE);
+            vh.mTime.setText(null);
+        }
 
         // Print the packet data. Try the most human-readable format.
         String data = TextUtils.isEmpty(packet.getDataPlain()) ?
                 (TextUtils.isEmpty(packet.getData()) ?
                         (TextUtils.isEmpty(packet.getDataRaw()) ?
                                 null : packet.getDataRaw()) : packet.getData()) : packet.getDataPlain();
-        vh.mData.setText(data);
+        if (!TextUtils.isEmpty(data)) {
+            vh.mData.setText(data);
+            vh.mData.setVisibility(View.VISIBLE);
+        } else {
+            vh.mData.setVisibility(View.GONE);
+            vh.mData.setText(null);
+        }
     }
 
     @Override
@@ -69,9 +94,9 @@ public class PacketAdapter extends RecyclerView.Adapter<PacketAdapter.ViewHolder
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.packet_device_id) TextView mDeviceId;
         @Bind(R.id.packet_time) TextView mTime;
         @Bind(R.id.packet_data) TextView mData;
+        @Bind(R.id.packet_device_id) TextView mDeviceId;
 
         public ViewHolder(View itemView) {
             super(itemView);

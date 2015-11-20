@@ -12,7 +12,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.ttn.android.sdk.TTNClient;
+import org.ttn.android.sdk.api.listeners.NodeListener;
 import org.ttn.android.sdk.api.listeners.PacketListener;
+import org.ttn.android.sdk.domain.node.Node;
 import org.ttn.android.sdk.domain.packet.Packet;
 
 import java.util.ArrayList;
@@ -43,11 +45,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.node_eui) EditText mNodeEui;
-    @Bind(R.id.packet_list) RecyclerView mPacketList;
+    @Bind(R.id.packet_list) RecyclerView mDataList;
 
     final TTNClient mTTNClient = new TTNClient();
+    final List<Node> mNodes = new ArrayList<>();
     final List<Packet> mPackets = new ArrayList<>();
-    final PacketAdapter mAdapter = new PacketAdapter(mPackets);
+    final NodeAdapter mNodeAdapter = new NodeAdapter(mNodes);
+    final PacketAdapter mPacketAdapter = new PacketAdapter(mPackets);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         // setup recycler view to show packets
-        mPacketList.setLayoutManager(new LinearLayoutManager(this));
-        mPacketList.setAdapter(mAdapter);
+        mDataList.setLayoutManager(new LinearLayoutManager(this));
+        mDataList.setAdapter(mNodeAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -83,19 +87,38 @@ public class MainActivity extends AppCompatActivity {
     void refreshPackets() {
         String nodeEui = mNodeEui.getText().toString();
         if (TextUtils.isEmpty(nodeEui)) {
-            getPackets();
+            getNodes();
         } else {
-            getPacket(nodeEui);
+            getPackets(nodeEui);
         }
     }
 
-    void getPackets() {
-        mTTNClient.getPackets(null, packetListener);
+    void getNodes() {
+        mTTNClient.getNodes(null, nodeListener);
     }
 
-    void getPacket(String nodeEui) {
-        mTTNClient.getPacket(nodeEui, null, null, null, packetListener);
+    void getPackets(String nodeEui) {
+        mTTNClient.getPackets(nodeEui, null, null, null, packetListener);
     }
+
+    NodeListener nodeListener = new NodeListener() {
+        @Override
+        public void onResult(List<Node> nodes) {
+            mNodes.clear();
+            if (nodes.isEmpty()) {
+                // TODO: toast
+            } else {
+                mNodes.addAll(nodes);
+                mDataList.setAdapter(mNodeAdapter);
+                mNodeAdapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onError() {
+            // TODO: toast
+        }
+    };
 
     PacketListener packetListener = new PacketListener() {
         @Override
@@ -103,9 +126,11 @@ public class MainActivity extends AppCompatActivity {
             mPackets.clear();
             if (packets.isEmpty()) {
                 Toast.makeText(MainActivity.this, R.string.no_packets_found, Toast.LENGTH_SHORT).show();
+            } else {
+                mPackets.addAll(packets);
+                mDataList.setAdapter(mPacketAdapter);
+                mPacketAdapter.notifyDataSetChanged();
             }
-            mPackets.addAll(packets);
-            mAdapter.notifyDataSetChanged();
         }
 
         @Override
