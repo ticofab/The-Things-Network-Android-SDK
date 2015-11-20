@@ -35,18 +35,44 @@ TTNClient mTTNClient = new TTNClient(); // consider injection
 Then use it to get packets, passing a Listener:
 
 ```java
-mTTNClient.get("my_node_eui", new PacketListener() {
+    public void getPackets(String nodeEui,
+                           String timeSpan,
+                           Integer limit,
+                           Integer offset,
+                           final ApiListener<Packet> packetListener);
+
+mTTNClient.getPackets("my_node_eui", null, null, null, new ApiListener<Packet>() {
     @Override
     public void onResult(List<Packet> packets) {
         // got packets
     }
-
+    
     @Override
     public void onError() {
         // error
     }
 });
 ```
+Beside packets, through TTNClient you can get this way also nodes, gateways and gateway statuses:
+
+```java
+
+    public void getNodes(String timeSpan,
+                         final ApiListener<Node> nodeListener);
+                     
+    public void getGateways(String timeSpan,
+                            Integer limit,
+                            Integer offset,
+                            final ApiListener<Gateway> gatewayListener)                         
+
+    public void getGatewayStatuses(String gatewayEui,
+                                   String timeSpan,
+                                   Integer limit,
+                                   Integer offset,
+                                   final ApiListener<GatewayStatus> gsListener)
+```
+
+
 Sample App
 ----------
 

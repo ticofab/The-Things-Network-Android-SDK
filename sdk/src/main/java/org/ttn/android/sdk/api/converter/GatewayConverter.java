@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import org.ttn.android.sdk.api.converter.base.JsonConverter;
 import org.ttn.android.sdk.api.converter.base.JsonErrorMessage;
 import org.ttn.android.sdk.domain.gateway.Gateway;
-import org.ttn.android.sdk.domain.gateway.GatewayStatus;
 
 /*
  * Copyright 2015 The Things Network
@@ -26,47 +25,18 @@ import org.ttn.android.sdk.domain.gateway.GatewayStatus;
  *
  * Created by fabiotiriticco on 9/10/15.
  */
-public class GatewayStatusConverter extends JsonConverter {
+public class GatewayConverter extends JsonConverter {
 
     public static final String JSON_KEY_LATITUDE = "latitude";
     public static final String JSON_KEY_ALTITUDE = "altitude";
     public static final String JSON_KEY_LONGITUDE = "longitude";
     public static final String JSON_KEY_TIME = "time";
     public static final String JSON_KEY_EUI = "eui";
-    public static final String JSON_KEY_RX_OK = "rxok";
-    public static final String JSON_KEY_RX_COUNT = "rxcount";
-    public static final String JSON_KEY_DATAGRAMS_RECEIVED = "datagramsreceived";
-    public static final String JSON_KEY_DATAGRAMS_SENT = "datagramssent";
-    public static final String JSON_KEY_RX_FORWARDED = "rxforwarded";
-    public static final String JSON_KEY_ACK_RATIO = "ackratio";
+    public static final String JSON_KEY_STATUS_PACKET_COUNT = "status_packet_count";
 
     @Override
     public Object fromJson(JSONObject jsonObj) throws JSONException {
-        GatewayStatus.Builder builder = new GatewayStatus.Builder();
-
-        if (jsonObj.has(JSON_KEY_ACK_RATIO)) {
-            builder.setAckRatio(jsonObj.getDouble(JSON_KEY_ACK_RATIO));
-        }
-
-        if (jsonObj.has(JSON_KEY_RX_FORWARDED)) {
-            builder.setRxForwarded(jsonObj.getInt(JSON_KEY_RX_FORWARDED));
-        }
-
-        if (jsonObj.has(JSON_KEY_DATAGRAMS_SENT)) {
-            builder.setDatagramSent(jsonObj.getInt(JSON_KEY_DATAGRAMS_SENT));
-        }
-
-        if (jsonObj.has(JSON_KEY_DATAGRAMS_RECEIVED)) {
-            builder.setDatagramReceived(jsonObj.getInt(JSON_KEY_DATAGRAMS_RECEIVED));
-        }
-
-        if (jsonObj.has(JSON_KEY_RX_COUNT)) {
-            builder.setRxCount(jsonObj.getInt(JSON_KEY_RX_COUNT));
-        }
-
-        if (jsonObj.has(JSON_KEY_RX_OK)) {
-            builder.setRxOk(jsonObj.getInt(JSON_KEY_RX_OK));
-        }
+        Gateway.Builder builder = new Gateway.Builder();
 
         if (jsonObj.has(JSON_KEY_EUI)) {
             builder.setNodeEui(jsonObj.getString(JSON_KEY_EUI));
@@ -88,6 +58,10 @@ public class GatewayStatusConverter extends JsonConverter {
             String dateStr = jsonObj.getString(JSON_KEY_TIME);
             DateTime time = ISODateTimeFormat.dateTime().parseDateTime(dateStr);
             builder.setLastSeen(time);
+        }
+
+        if (jsonObj.has(JSON_KEY_STATUS_PACKET_COUNT)) {
+            builder.setStatusPacketcount(jsonObj.getInt(JSON_KEY_STATUS_PACKET_COUNT));
         }
 
         return builder.build();

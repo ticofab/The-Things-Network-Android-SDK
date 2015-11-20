@@ -17,11 +17,13 @@ package org.ttn.android.sdk.api.client;/*
  *
  */
 
+import org.ttn.android.sdk.api.converter.GatewayConverter;
 import org.ttn.android.sdk.api.converter.GatewayStatusConverter;
 import org.ttn.android.sdk.api.converter.NodeConverter;
 import org.ttn.android.sdk.api.converter.PacketConverter;
 import org.ttn.android.sdk.api.retrofit.ServiceGenerator;
 import org.ttn.android.sdk.api.retrofit.v0.GatewayApi;
+import org.ttn.android.sdk.api.retrofit.v0.GatewayStatusApi;
 import org.ttn.android.sdk.api.retrofit.v0.NodeApi;
 import org.ttn.android.sdk.api.retrofit.v0.PacketApi;
 
@@ -30,12 +32,14 @@ public class ApiClientV0 {
     final NodeApi mNodeService;
     final PacketApi mPacketService;
     final GatewayApi mGatewayService;
+    final GatewayStatusApi mGatewayStatusService;
 
     public ApiClientV0() {
         ServiceGenerator serviceGenerator = new ServiceGenerator();
         mNodeService = serviceGenerator.createService(NodeApi.class, new NodeConverter());
         mPacketService = serviceGenerator.createService(PacketApi.class, new PacketConverter());
-        mGatewayService = serviceGenerator.createService(GatewayApi.class, new GatewayStatusConverter());
+        mGatewayService = serviceGenerator.createService(GatewayApi.class, new GatewayConverter());
+        mGatewayStatusService = serviceGenerator.createService(GatewayStatusApi.class, new GatewayStatusConverter());
     }
 
     public NodeApi getNodeService() {
@@ -48,5 +52,9 @@ public class ApiClientV0 {
 
     public GatewayApi getGatewaysService() {
         return mGatewayService;
+    }
+
+    public GatewayStatusApi getGatewayStatusService() {
+        return mGatewayStatusService;
     }
 }

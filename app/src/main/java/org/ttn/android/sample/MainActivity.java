@@ -12,8 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.ttn.android.sdk.TTNClient;
-import org.ttn.android.sdk.api.listeners.NodeListener;
-import org.ttn.android.sdk.api.listeners.PacketListener;
+import org.ttn.android.sdk.api.listeners.ApiListener;
 import org.ttn.android.sdk.domain.node.Node;
 import org.ttn.android.sdk.domain.packet.Packet;
 
@@ -101,12 +100,12 @@ public class MainActivity extends AppCompatActivity {
         mTTNClient.getPackets(nodeEui, null, null, null, packetListener);
     }
 
-    NodeListener nodeListener = new NodeListener() {
+    ApiListener<Node> nodeListener = new ApiListener<Node>() {
         @Override
         public void onResult(List<Node> nodes) {
             mNodes.clear();
             if (nodes.isEmpty()) {
-                // TODO: toast
+                Toast.makeText(MainActivity.this, R.string.no_nodes_found, Toast.LENGTH_SHORT).show();
             } else {
                 mNodes.addAll(nodes);
                 mDataList.setAdapter(mNodeAdapter);
@@ -116,11 +115,11 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onError() {
-            // TODO: toast
+            Toast.makeText(MainActivity.this, R.string.failed_to_retrieve_nodes, Toast.LENGTH_LONG).show();
         }
     };
 
-    PacketListener packetListener = new PacketListener() {
+    ApiListener<Packet> packetListener = new ApiListener<Packet>() {
         @Override
         public void onResult(List<Packet> packets) {
             mPackets.clear();

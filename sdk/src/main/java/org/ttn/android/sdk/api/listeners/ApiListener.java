@@ -1,5 +1,7 @@
 package org.ttn.android.sdk.api.listeners;
 
+import java.util.List;
+
 /*
  * Copyright 2015 The Things Network
  *
@@ -15,15 +17,11 @@ package org.ttn.android.sdk.api.listeners;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Created by fabiotiriticco on 25/09/15.
+ * Created by fabiotiriticco on 20/11/15.
  *
  */
+public interface ApiListener<T> {
+    void onResult(List<T> packets);
 
-import org.ttn.android.sdk.domain.packet.Packet;
-
-import java.util.List;
-
-public interface PacketListener {
-    void onResult(List<Packet> packets);
     void onError();
 }
