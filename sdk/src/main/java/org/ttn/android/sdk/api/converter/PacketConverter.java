@@ -32,7 +32,6 @@ public class PacketConverter extends JsonConverter {
     public static final String JSON_KEY_DATA_PLAIN = "data_plain";
     public static final String JSON_KEY_LAST_GATEWAY_EUI = "last_gateway_eui";
     public static final String JSON_KEY_NODE_EUI = "node_eui";
-    public static final String JSON_KEY_PACKETS_COUNT = "packets_count";
     public static final String JSON_KEY_TIME = "time";
     public static final String JSON_KEY_DATA_JSON = "data_json";
 

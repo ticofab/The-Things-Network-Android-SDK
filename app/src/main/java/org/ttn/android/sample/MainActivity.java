@@ -7,12 +7,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.ttn.android.sdk.TTNClient;
-import org.ttn.android.sdk.api.listeners.ApiListener;
+import org.ttn.android.sdk.TTNMqttClient;
+import org.ttn.android.sdk.TTNRestClient;
+import org.ttn.android.sdk.api.listeners.MqttApiListener;
+import org.ttn.android.sdk.api.listeners.RestApiListener;
 import org.ttn.android.sdk.domain.node.Node;
 import org.ttn.android.sdk.domain.packet.Packet;
 
@@ -46,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.node_eui) EditText mNodeEui;
     @Bind(R.id.packet_list) RecyclerView mDataList;
 
-    final TTNClient mTTNClient = new TTNClient();
+    final TTNRestClient mTTNRestClient = new TTNRestClient();
     final List<Node> mNodes = new ArrayList<>();
     final List<Packet> mPackets = new ArrayList<>();
     final NodeAdapter mNodeAdapter = new NodeAdapter(mNodes);
@@ -68,6 +71,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 refreshPackets();
+            }
+        });
+
+        TTNMqttClient mqttClient = new TTNMqttClient();
+        mqttClient.packets(new MqttApiListener() {
+            @Override
+            public void onPacket(Packet packet) {
+                Log.d("t", "packet from node: " + packet.getNodeEui());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                Log.d("t", "error: " + throwable);
             }
         });
     }
@@ -93,14 +109,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void getNodes() {
-        mTTNClient.getNodes(null, nodeListener);
+        mTTNRestClient.getNodes(null, nodeListener);
     }
 
     void getPackets(String nodeEui) {
-        mTTNClient.getPackets(nodeEui, null, null, null, packetListener);
+        mTTNRestClient.getPackets(nodeEui, null, null, null, packetListener);
     }
 
-    ApiListener<Node> nodeListener = new ApiListener<Node>() {
+    RestApiListener<Node> nodeListener = new RestApiListener<Node>() {
         @Override
         public void onResult(List<Node> nodes) {
             mNodes.clear();
@@ -119,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    ApiListener<Packet> packetListener = new ApiListener<Packet>() {
+    RestApiListener<Packet> packetListener = new RestApiListener<Packet>() {
         @Override
         public void onResult(List<Packet> packets) {
             mPackets.clear();

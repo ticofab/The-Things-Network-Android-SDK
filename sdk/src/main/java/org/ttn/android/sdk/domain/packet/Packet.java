@@ -48,7 +48,7 @@ public class Packet {
     public DateTime getTime() {
         return mTime;
     }
-
+    
     @Override
     public boolean equals(final Object other) {
         if (other == null) {

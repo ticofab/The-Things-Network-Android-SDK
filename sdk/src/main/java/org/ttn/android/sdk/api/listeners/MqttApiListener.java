@@ -1,5 +1,7 @@
 package org.ttn.android.sdk.api.listeners;
 
+import org.ttn.android.sdk.domain.packet.Packet;
+
 import java.util.List;
 
 /*
@@ -20,8 +22,9 @@ import java.util.List;
  * Created by fabiotiriticco on 20/11/15.
  *
  */
-public interface ApiListener<T> {
-    void onResult(List<T> packets);
+public interface MqttApiListener {
+    void onPacket(Packet packet);
 
-    void onError();
+    // TODO: add error message
+    void onError(Throwable throwable);
 }
