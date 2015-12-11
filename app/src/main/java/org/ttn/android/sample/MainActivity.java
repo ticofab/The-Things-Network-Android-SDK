@@ -49,10 +49,10 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.node_eui) EditText mNodeEui;
     @Bind(R.id.packet_list) RecyclerView mDataList;
 
-    final TTNRestClient mTTNRestClient = new TTNRestClient();
     final List<Node> mNodes = new ArrayList<>();
     final List<Packet> mPackets = new ArrayList<>();
     final NodeAdapter mNodeAdapter = new NodeAdapter(mNodes);
+    final TTNRestClient mTTNRestClient = new TTNRestClient();
     final PacketAdapter mPacketAdapter = new PacketAdapter(mPackets);
 
     @Override
