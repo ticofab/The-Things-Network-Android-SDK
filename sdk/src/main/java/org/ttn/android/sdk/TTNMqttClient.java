@@ -22,6 +22,7 @@ public class TTNMqttClient {
     private static final String MQTT_HOST = "tcp://croft.thethings.girovito.nl:1883";
 
     MQTT mMqtt = new MQTT();
+    CallbackConnection mConnection;
     PacketConverter mPacketConverter = new PacketConverter();
 
     public TTNMqttClient() {
@@ -43,8 +44,8 @@ public class TTNMqttClient {
     void setupMqtt(String nodeEui, final MqttApiListener listener) {
 
         // establish connection
-        final CallbackConnection conn = mMqtt.callbackConnection();
-        conn.listener(new Listener() {
+        mConnection = mMqtt.callbackConnection();
+        mConnection.listener(new Listener() {
             @Override
             public void onConnected() {
             }
@@ -76,7 +77,7 @@ public class TTNMqttClient {
         final Topic[] topics = {new Topic("nodes/" + nodeEui + "/packets", QoS.AT_LEAST_ONCE)};
 
         // connect
-        conn.connect(new Callback<Void>() {
+        mConnection.connect(new Callback<Void>() {
             @Override
             public void onFailure(Throwable value) {
                 listener.onError(value);
@@ -87,7 +88,7 @@ public class TTNMqttClient {
                 Log.d("t", "connection success");
 
                 // subscribe
-                conn.subscribe(topics, new Callback<byte[]>() {
+                mConnection.subscribe(topics, new Callback<byte[]>() {
                     public void onSuccess(byte[] qoses) {
                         // The result of the subcribe request.
                         Log.d("t", "subscribed");
@@ -101,6 +102,21 @@ public class TTNMqttClient {
 
         });
 
+    }
 
+    public void disconnect() {
+        if (mConnection != null) {
+            mConnection.disconnect(new Callback<Void>() {
+                @Override
+                public void onSuccess(Void value) {
+
+                }
+
+                @Override
+                public void onFailure(Throwable value) {
+
+                }
+            });
+        }
     }
 }

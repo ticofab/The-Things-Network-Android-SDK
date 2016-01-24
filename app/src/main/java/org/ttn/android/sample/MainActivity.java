@@ -12,6 +12,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
+
 import org.ttn.android.sdk.TTNMqttClient;
 import org.ttn.android.sdk.TTNRestClient;
 import org.ttn.android.sdk.api.listeners.MqttApiListener;
@@ -48,11 +52,14 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.node_eui) EditText mNodeEui;
     @Bind(R.id.packet_list) RecyclerView mDataList;
+    @Bind(R.id.progress_bar) CircleProgressBar mProgressBar;
 
+    final Bus mBus = new Bus();
     final List<Node> mNodes = new ArrayList<>();
     final List<Packet> mPackets = new ArrayList<>();
-    final NodeAdapter mNodeAdapter = new NodeAdapter(mNodes);
+    final NodeAdapter mNodeAdapter = new NodeAdapter(mBus, mNodes);
     final TTNRestClient mTTNRestClient = new TTNRestClient();
+    final TTNMqttClient mTTNMqttClient = new TTNMqttClient();
     final PacketAdapter mPacketAdapter = new PacketAdapter(mPackets);
 
     @Override
@@ -73,19 +80,6 @@ public class MainActivity extends AppCompatActivity {
                 refreshPackets();
             }
         });
-
-        TTNMqttClient mqttClient = new TTNMqttClient();
-        mqttClient.packets(new MqttApiListener() {
-            @Override
-            public void onPacket(Packet packet) {
-                Log.d("t", "packet from node: " + packet.getNodeEui());
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                Log.d("t", "error: " + throwable);
-            }
-        });
     }
 
     @Override
@@ -96,15 +90,46 @@ public class MainActivity extends AppCompatActivity {
         refreshPackets();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mBus.register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBus.unregister(this);
+    }
+
+    @Subscribe
+    public void onNodeSelected(NodeSelectedEvent event) {
+        mNodeEui.setText(event.mNodeEui);
+        refreshPackets();
+    }
+
     /**
      * Triggers a packet refresh from the APIs.
      */
     void refreshPackets() {
+        mProgressBar.setVisibility(View.VISIBLE);
         String nodeEui = mNodeEui.getText().toString();
         if (TextUtils.isEmpty(nodeEui)) {
+            mTTNMqttClient.disconnect();
             getNodes();
         } else {
             getPackets(nodeEui);
+            mTTNMqttClient.packets(nodeEui, new MqttApiListener() {
+                @Override
+                public void onPacket(Packet packet) {
+                    Log.d("t", "packet from node: " + packet.getNodeEui());
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    Log.d("t", "error: " + throwable);
+                }
+            });
         }
     }
 
@@ -119,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
     RestApiListener<Node> nodeListener = new RestApiListener<Node>() {
         @Override
         public void onResult(List<Node> nodes) {
+            mProgressBar.setVisibility(View.GONE);
             mNodes.clear();
             if (nodes.isEmpty()) {
                 Toast.makeText(MainActivity.this, R.string.no_nodes_found, Toast.LENGTH_SHORT).show();
@@ -131,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onError() {
+            mProgressBar.setVisibility(View.GONE);
             Toast.makeText(MainActivity.this, R.string.failed_to_retrieve_nodes, Toast.LENGTH_LONG).show();
         }
     };
@@ -138,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
     RestApiListener<Packet> packetListener = new RestApiListener<Packet>() {
         @Override
         public void onResult(List<Packet> packets) {
+            mProgressBar.setVisibility(View.GONE);
             mPackets.clear();
             if (packets.isEmpty()) {
                 Toast.makeText(MainActivity.this, R.string.no_packets_found, Toast.LENGTH_SHORT).show();
@@ -150,7 +178,18 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onError() {
+            mProgressBar.setVisibility(View.GONE);
             Toast.makeText(MainActivity.this, R.string.failed_to_retrieve_packets, Toast.LENGTH_LONG).show();
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        if (!TextUtils.isEmpty(mNodeEui.getText())) {
+            mNodeEui.setText("");
+            refreshPackets();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.squareup.otto.Bus;
+
 import org.joda.time.DateTime;
 import org.ttn.android.sdk.domain.node.Node;
 
@@ -37,10 +39,12 @@ import butterknife.ButterKnife;
 
 public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
 
+    Bus mBus;
     List<Node> mNodes;
     DateFormat mDateFormatter = DateFormat.getDateInstance(DateFormat.FULL);
 
-    public NodeAdapter(List<Node> nodes) {
+    public NodeAdapter(Bus bus, List<Node> nodes) {
+        mBus = bus;
         mNodes = nodes;
     }
 
@@ -51,8 +55,8 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder vh, int position) {
-        Node node = mNodes.get(position);
+    public void onBindViewHolder(ViewHolder vh, final int position) {
+        final Node node = mNodes.get(position);
 
         // node eui
         String nodeEui = node.getNodeEui();
@@ -93,6 +97,14 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
             vh.mPacketsCount.setVisibility(View.GONE);
             vh.mPacketsCount.setText(null);
         }
+
+        // dispatch click event
+        vh.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBus.post(new NodeSelectedEvent(node.getNodeEui()));
+            }
+        });
     }
 
     @Override
