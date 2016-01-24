@@ -7,7 +7,9 @@ Android SDK to interact with the API of [The Things Network](http://thethingsnet
 Download
 --------
 
-Soon in jCenter.
+Grab via gradle:
+
+`compile 'io.ticofab:ttn-android-sdk:1.0.0'`
 
 Dependencies
 ------------
