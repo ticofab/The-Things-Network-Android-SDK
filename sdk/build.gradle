@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         minSdkVersion 17
@@ -31,4 +31,9 @@ dependencies {
     // JodaTime for Android
     // https://github.com/dlew/joda-time-android
     compile 'net.danlew:android.joda:2.8.2'
+
+    // mqtt client
+    // https://github.com/fusesource/mqtt-client
+    compile 'org.fusesource.mqtt-client:mqtt-client:1.12'
+
 }

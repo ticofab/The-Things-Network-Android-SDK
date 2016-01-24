@@ -1,7 +1,7 @@
 package org.ttn.android.sdk;
 
 import org.ttn.android.sdk.api.client.ApiClientV0;
-import org.ttn.android.sdk.api.listeners.ApiListener;
+import org.ttn.android.sdk.api.listeners.RestApiListener;
 import org.ttn.android.sdk.domain.gateway.Gateway;
 import org.ttn.android.sdk.domain.gateway.GatewayStatus;
 import org.ttn.android.sdk.domain.node.Node;
@@ -31,7 +31,7 @@ import retrofit.client.Response;
  * Created by fabiotiriticco on 20/11/15.
  *
  */
-public class TTNClient {
+public class TTNRestClient {
 
     final ApiClientV0 mApiClient = new ApiClientV0();
 
@@ -39,19 +39,19 @@ public class TTNClient {
                            String timeSpan,
                            Integer limit,
                            Integer offset,
-                           final ApiListener<Packet> packetListener) {
+                           final RestApiListener<Packet> packetListener) {
         mApiClient.getPacketService().get(nodeEui, timeSpan, limit, offset, getCallback(packetListener));
     }
 
     public void getNodes(String timeSpan,
-                         final ApiListener<Node> nodeListener) {
+                         final RestApiListener<Node> nodeListener) {
         mApiClient.getNodeService().get(timeSpan, getCallback(nodeListener));
     }
 
     public void getGateways(String timeSpan,
                             Integer limit,
                             Integer offset,
-                            final ApiListener<Gateway> gatewayListener) {
+                            final RestApiListener<Gateway> gatewayListener) {
         mApiClient.getGatewaysService().get(timeSpan, limit, offset, getCallback(gatewayListener));
     }
 
@@ -59,11 +59,11 @@ public class TTNClient {
                                    String timeSpan,
                                    Integer limit,
                                    Integer offset,
-                                   final ApiListener<GatewayStatus> gsListener) {
+                                   final RestApiListener<GatewayStatus> gsListener) {
         mApiClient.getGatewayStatusService().get(gatewayEui, timeSpan, limit, offset, getCallback(gsListener));
     }
 
-    <T> Callback<List<T>> getCallback(final ApiListener<T> listener) {
+    <T> Callback<List<T>> getCallback(final RestApiListener<T> listener) {
         return new Callback<List<T>>() {
             @Override
             public void success(List<T> list, Response response) {
