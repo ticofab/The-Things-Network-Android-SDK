@@ -9,7 +9,9 @@ Download
 
 Grab via gradle:
 
-`compile 'io.ticofab:ttn-android-sdk:1.0.0'`
+```groovy
+compile 'io.ticofab:ttn-android-sdk:1.0.0'
+```
 
 Dependencies
 ------------
