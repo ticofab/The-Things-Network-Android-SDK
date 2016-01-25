@@ -33,7 +33,7 @@ Usage
 
 This is going to evolve fast, so for the time being refer to the sample app.
 
-*REST API*
+**REST API**
 
 Get a TTNRestClient instance:
 
@@ -80,7 +80,7 @@ public void getGatewayStatuses(String gatewayEui,
                                final ApiListener<GatewayStatus> gsListener);
 ```
 
-*MQTT API*
+**MQTT API**
 
 This API lets you listen to all or one specific node.
 
