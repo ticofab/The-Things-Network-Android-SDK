@@ -6,6 +6,9 @@
     <string name="no_nodes_found">No packets found.</string>
     <string name="failed_to_retrieve_packets">Failed to retrieve packets.</string>
     <string name="no_packets_found">No packets found.</string>
+    <string name="packets_retrieved">Packets retrieved!</string>
     <string name="node_title">Node:</string>
+    <string name="packet_received">Packet received!</string>
+    <string name="mqtt_error">MQTT error: $1%s</string>
     <string name="packet_title">Packet:</string>
 </resources>
