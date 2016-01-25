@@ -1,7 +1,5 @@
 package org.ttn.android.sdk;
 
-import android.util.Log;
-
 import org.fusesource.hawtbuf.Buffer;
 import org.fusesource.hawtbuf.UTF8Buffer;
 import org.fusesource.mqtt.client.Callback;
@@ -19,6 +17,7 @@ import org.ttn.android.sdk.domain.packet.Packet;
 import java.net.URISyntaxException;
 
 public class TTNMqttClient {
+    // hardcoded endpoint
     private static final String MQTT_HOST = "tcp://croft.thethings.girovito.nl:1883";
 
     MQTT mMqtt = new MQTT();
@@ -85,13 +84,11 @@ public class TTNMqttClient {
 
             @Override
             public void onSuccess(Void value) {
-                Log.d("t", "connection success");
 
                 // subscribe
                 mConnection.subscribe(topics, new Callback<byte[]>() {
                     public void onSuccess(byte[] qoses) {
                         // The result of the subcribe request.
-                        Log.d("t", "subscribed");
                     }
 
                     public void onFailure(Throwable value) {
