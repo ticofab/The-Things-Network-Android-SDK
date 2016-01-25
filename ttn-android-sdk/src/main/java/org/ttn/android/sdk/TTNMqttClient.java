@@ -10,7 +10,7 @@ import org.fusesource.mqtt.client.QoS;
 import org.fusesource.mqtt.client.Topic;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.ttn.android.sdk.api.converter.PacketConverter;
+import org.ttn.android.sdk.api.converter.MqttPacketConverter;
 import org.ttn.android.sdk.api.listeners.MqttApiListener;
 import org.ttn.android.sdk.domain.packet.Packet;
 
@@ -22,7 +22,7 @@ public class TTNMqttClient {
 
     MQTT mMqtt = new MQTT();
     CallbackConnection mConnection;
-    PacketConverter mPacketConverter = new PacketConverter();
+    MqttPacketConverter mMqttPacketConverter = new MqttPacketConverter();
 
     public TTNMqttClient() {
         try {
@@ -58,7 +58,7 @@ public class TTNMqttClient {
 
                 try {
                     JSONObject jsonObj = new JSONObject(body.ascii().toString());
-                    Packet packet = (Packet) mPacketConverter.fromJson(jsonObj);
+                    Packet packet = (Packet) mMqttPacketConverter.fromJson(jsonObj);
                     listener.onPacket(packet);
                 } catch (JSONException e) {
                     listener.onError(e);
@@ -88,7 +88,7 @@ public class TTNMqttClient {
                 // subscribe
                 mConnection.subscribe(topics, new Callback<byte[]>() {
                     public void onSuccess(byte[] qoses) {
-                        // The result of the subcribe request.
+                        // The result of the subscribe request.
                     }
 
                     public void onFailure(Throwable value) {

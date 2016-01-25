@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             // no node was specified. Let's get nodes.
             getNodes();
 
-            // and make sure our live MQTT listener is disconnected,
+            // and make sure our live MQTT listener is disconnected.
             mTTNMqttClient.disconnect();
 
         } else {
@@ -146,22 +146,37 @@ public class MainActivity extends AppCompatActivity {
             // and subscribe for new packets.
             mTTNMqttClient.packets(nodeEui, new MqttApiListener() {
                 @Override
-                public void onPacket(Packet packet) {
+                public void onPacket(final Packet packet) {
                     // notify user
-                    Toast.makeText(MainActivity.this, R.string.packet_received, Toast.LENGTH_SHORT).show();
+                    toastOnUiThread(getString(R.string.packet_received));
 
-                    // insert packet at the top of the list
-                    mPackets.add(mPackets.size(), packet);
-                    mPacketAdapter.notifyItemInserted(mPackets.size() - 1);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // insert packet at the top of the list
+                            mPackets.add(0, packet);
+                            mPacketAdapter.notifyItemInserted(0);
+                            mDataList.scrollToPosition(0);
+                        }
+                    });
                 }
 
                 @Override
-                public void onError(Throwable throwable) {
+                public void onError(final Throwable throwable) {
                     // notify user
-                    Toast.makeText(MainActivity.this, getString(R.string.mqtt_error, throwable.getMessage()), Toast.LENGTH_LONG).show();
+                    toastOnUiThread(getString(R.string.mqtt_error, throwable.getMessage()));
                 }
             });
         }
+    }
+
+    void toastOnUiThread(final String message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     /**
@@ -189,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
             if (nodes.isEmpty()) {
                 Toast.makeText(MainActivity.this, R.string.no_nodes_found, Toast.LENGTH_SHORT).show();
             } else {
+                Toast.makeText(MainActivity.this, R.string.nodes_received, Toast.LENGTH_LONG).show();
                 mNodes.addAll(nodes);
                 mDataList.setAdapter(mNodeAdapter);
                 mNodeAdapter.notifyDataSetChanged();
