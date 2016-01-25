@@ -129,6 +129,13 @@ public class MainActivity extends AppCompatActivity {
      */
     void refreshData() {
         mProgressBar.setVisibility(View.VISIBLE);
+
+        // clear list from whatever it's in it
+        mNodes.clear();
+        mPackets.clear();
+        mNodeAdapter.notifyDataSetChanged();
+        mPacketAdapter.notifyDataSetChanged();
+
         String nodeEui = mNodeEui.getText().toString();
         if (TextUtils.isEmpty(nodeEui)) {
 
