@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -122,12 +121,15 @@ public class MainActivity extends AppCompatActivity {
             mTTNMqttClient.packets(nodeEui, new MqttApiListener() {
                 @Override
                 public void onPacket(Packet packet) {
-                    Log.d("t", "packet from node: " + packet.getNodeEui());
+                    Toast.makeText(MainActivity.this, "packet from node: " + packet.getNodeEui(), Toast.LENGTH_SHORT).show();
+                    // insert packet at the top of the list
+                    mPackets.add(mPackets.size(), packet);
+                    mPacketAdapter.notifyItemInserted(mPackets.size() - 1);
                 }
 
                 @Override
                 public void onError(Throwable throwable) {
-                    Log.d("t", "error: " + throwable);
+                    Toast.makeText(MainActivity.this, "MQTT error: " + throwable.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
         }
