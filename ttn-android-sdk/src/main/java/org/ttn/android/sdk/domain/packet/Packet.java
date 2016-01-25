@@ -10,6 +10,9 @@ public class Packet {
     final String mGatewayEui;
     final String mNodeEui;
     final DateTime mTime;
+    final Double mFrequency;
+    final Integer mRSSI;
+    final Double mSNR;
 
     public Packet(Builder builder) {
         mData = builder.mData;
@@ -19,6 +22,9 @@ public class Packet {
         mGatewayEui = builder.mGatewayEui;
         mNodeEui = builder.mNodeEui;
         mTime = builder.mTime;
+        mFrequency = builder.mFrequency;
+        mRSSI = builder.mRSSI;
+        mSNR = builder.mSNR;
     }
 
     public String getData() {
@@ -48,7 +54,20 @@ public class Packet {
     public DateTime getTime() {
         return mTime;
     }
-    
+
+    public Double getFrequency() {
+        return mFrequency;
+    }
+
+    public Integer getRSSI() {
+        return mRSSI;
+    }
+
+    public Double getSNR() {
+        return mSNR;
+    }
+
+
     @Override
     public boolean equals(final Object other) {
         if (other == null) {
@@ -67,7 +86,10 @@ public class Packet {
                     getDataRaw().equals(otherPacket.getDataRaw()) &&
                     getGatewayEui().equals(otherPacket.getGatewayEui()) &&
                     getNodeEui().equals(otherPacket.getNodeEui()) &&
-                    getTime().equals(otherPacket.getTime());
+                    getTime().equals(otherPacket.getTime()) &&
+                    getFrequency().equals(otherPacket.getFrequency()) &&
+                    getRSSI().equals(otherPacket.getRSSI()) &&
+                    getSNR().equals(otherPacket.getSNR());
         }
 
         return super.equals(other);
@@ -81,6 +103,9 @@ public class Packet {
         private String mGatewayEui;
         private String mNodeEui;
         private DateTime mTime;
+        private Double mFrequency;
+        private Integer mRSSI;
+        private Double mSNR;
 
         public Builder setData(String data) {
             mData = data;
@@ -113,6 +138,21 @@ public class Packet {
 
         public Builder setTime(DateTime time) {
             mTime = time;
+            return this;
+        }
+
+        public Builder setFrequency(Double frequency) {
+            mFrequency = frequency;
+            return this;
+        }
+
+        public Builder setRSSI(Integer rssi) {
+            mRSSI = rssi;
+            return this;
+        }
+
+        public Builder setSNR(Double snr) {
+            mSNR = snr;
             return this;
         }
 
