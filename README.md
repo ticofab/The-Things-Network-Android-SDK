@@ -19,11 +19,14 @@ Dependencies
 SDK:
 
 * [Retrofit](http://square.github.io/retrofit/)
+* [MQTT-Client](https://github.com/fusesource/mqtt-client)
+* [Joda DateTime for Android](https://github.com/dlew/joda-time-android)
 
 SAMPLE:
 
-* [Joda DateTime for Android][1]
 * [ButterKnife](http://jakewharton.github.io/butterknife/)
+* [Otto Event Bus](http://square.github.io/otto/)
+* [Material Progress Bar](https://github.com/lsjwzh/MaterialLoadingProgressBar)
 
 Usage
 -----
@@ -128,4 +131,3 @@ License
     See the License for the specific language governing permissions and
     limitations under the License.
 
-[1]: https://github.com/dlew/joda-time-android
