@@ -1,32 +1,29 @@
 The Things Network - Android SDK
-=======
+================================
 
 Android SDK to interact with the API of [The Things Network](http://thethingsnetwork.org) servers.
 
+Sample App
+----------
 
-Download
---------
+Check the sample app for examples on how to use the code.
+
+* First, it uses the REST API to get the available nodes.
+* Click on one and it loads all available packets from that node.
+* ..and it subscribes to the MQTT client to receive new packets as they are published.
+
+Try the sample app on your device (and report issues if you find any!):
+
+<a href="https://play.google.com/store/apps/details?id=org.ttn.android.sample&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" /></a>
+
+Download SDK
+------------
 
 Grab via gradle:
 
 ```groovy
 compile 'io.ticofab:ttn-android-sdk:1.1.0'
 ```
-
-Dependencies
-------------
-
-SDK:
-
-* [Retrofit](http://square.github.io/retrofit/)
-* [MQTT-Client](https://github.com/fusesource/mqtt-client)
-* [Joda DateTime for Android](https://github.com/dlew/joda-time-android)
-
-SAMPLE:
-
-* [ButterKnife](http://jakewharton.github.io/butterknife/)
-* [Otto Event Bus](http://square.github.io/otto/)
-* [Material Progress Bar](https://github.com/lsjwzh/MaterialLoadingProgressBar)
 
 Usage
 -----
@@ -109,10 +106,21 @@ mTTNMqttClient.packets("myNodeEui", new MqttApiListener() {
 });
 ```
 
-Sample App
-----------
+Dependencies
+------------
 
-Check the sample app for examples.
+SDK:
+
+* [Retrofit](http://square.github.io/retrofit/)
+* [MQTT-Client](https://github.com/fusesource/mqtt-client)
+* [Joda DateTime for Android](https://github.com/dlew/joda-time-android)
+
+SAMPLE:
+
+* [ButterKnife](http://jakewharton.github.io/butterknife/)
+* [Otto Event Bus](http://square.github.io/otto/)
+* [Material Progress Bar](https://github.com/lsjwzh/MaterialLoadingProgressBar)
+
 
 License
 --------
