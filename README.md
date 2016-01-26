@@ -10,7 +10,7 @@ Download
 Grab via gradle:
 
 ```groovy
-compile 'io.ticofab:ttn-android-sdk:1.0.0'
+compile 'io.ticofab:ttn-android-sdk:1.1.0'
 ```
 
 Dependencies
@@ -19,21 +19,26 @@ Dependencies
 SDK:
 
 * [Retrofit](http://square.github.io/retrofit/)
+* [MQTT-Client](https://github.com/fusesource/mqtt-client)
+* [Joda DateTime for Android](https://github.com/dlew/joda-time-android)
 
 SAMPLE:
 
-* [Joda DateTime for Android][1]
 * [ButterKnife](http://jakewharton.github.io/butterknife/)
+* [Otto Event Bus](http://square.github.io/otto/)
+* [Material Progress Bar](https://github.com/lsjwzh/MaterialLoadingProgressBar)
 
 Usage
 -----
 
 This is going to evolve fast, so for the time being refer to the sample app.
 
-Get a TTNClient instance:
+**REST API**
+
+Get a TTNRestClient instance:
 
 ```java
-TTNClient mTTNClient = new TTNClient(); // consider injection
+final TTNRestClient mTTNRestClient = new TTNRestClient(); // consider injection
 ```
 
 Then use it to get packets, passing a Listener:
@@ -45,7 +50,7 @@ public void getPackets(String nodeEui,
                        Integer offset,
                        final ApiListener<Packet> packetListener);
 
-mTTNClient.getPackets("my_node_eui", null, null, null, new ApiListener<Packet>() {
+mTTNRestClient.getPackets("my_node_eui", null, null, null, new ApiListener<Packet>() {
     @Override
     public void onResult(List<Packet> packets) {
         // got packets
@@ -75,10 +80,39 @@ public void getGatewayStatuses(String gatewayEui,
                                final ApiListener<GatewayStatus> gsListener);
 ```
 
+**MQTT API**
+
+This API lets you listen to all or one specific node.
+
+Get a TTNMqttClient instance:
+
+```java
+final TTNMqttClient mTTNMqttClient = new TTNMqttClient(); // consider injection
+```
+
+Then, you can subscribe for updates from a specific packet passing a listener:
+
+```java
+// subscribe for new packets.
+mTTNMqttClient.packets("myNodeEui", new MqttApiListener() {
+    @Override
+    public void onPacket(final Packet packet) {
+        // do something
+        // NOTE: this callback doesn't happen on the main thread!
+    }
+
+    @Override
+    public void onError(final Throwable throwable) {
+        // error
+        // NOTE: this callback doesn't happen on the main thread!
+    }
+});
+```
+
 Sample App
 ----------
 
-Currently, all the sample app does is query the API for available packets and displays information about those in a list.
+Check the sample app for examples.
 
 License
 --------
@@ -97,4 +131,3 @@ License
     See the License for the specific language governing permissions and
     limitations under the License.
 
-[1]: https://github.com/dlew/joda-time-android
