@@ -10,7 +10,7 @@ Download
 Grab via gradle:
 
 ```groovy
-compile 'io.ticofab:ttn-android-sdk:1.0.0'
+compile 'io.ticofab:ttn-android-sdk:1.1.0'
 ```
 
 Dependencies
