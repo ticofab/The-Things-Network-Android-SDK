@@ -117,6 +117,14 @@ public class MainActivity extends AppCompatActivity {
         mBus.unregister(this);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        // last check to disconnect the MQTT client
+        mTTNMqttClient.disconnect();
+    }
+
     @Subscribe
     public void onNodeSelected(NodeSelectedEvent event) {
         mNodeEui.setText(event.mNodeEui);
