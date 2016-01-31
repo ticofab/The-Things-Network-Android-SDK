@@ -22,7 +22,7 @@ Download SDK
 Grab via gradle:
 
 ```groovy
-compile 'io.ticofab:ttn-android-sdk:1.1.0'
+compile 'io.ticofab:ttn-android-sdk:1.1.1'
 ```
 
 Usage
