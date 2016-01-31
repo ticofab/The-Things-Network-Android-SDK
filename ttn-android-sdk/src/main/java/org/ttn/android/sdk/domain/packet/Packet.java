@@ -3,16 +3,18 @@ package org.ttn.android.sdk.domain.packet;
 import org.joda.time.DateTime;
 
 public class Packet {
+
+    final Double mSNR;
     final String mData;
+    final Integer mRSSI;
+    final DateTime mTime;
+    final String mNodeEui;
     final String mDataRaw;
     final String mDataJson;
+    final String mDataRate;
     final String mDataPlain;
     final String mGatewayEui;
-    final String mNodeEui;
-    final DateTime mTime;
     final Double mFrequency;
-    final Integer mRSSI;
-    final Double mSNR;
 
     public Packet(Builder builder) {
         mData = builder.mData;
@@ -25,6 +27,7 @@ public class Packet {
         mFrequency = builder.mFrequency;
         mRSSI = builder.mRSSI;
         mSNR = builder.mSNR;
+        mDataRate = builder.mDataRate;
     }
 
     public String getData() {
@@ -67,6 +70,9 @@ public class Packet {
         return mSNR;
     }
 
+    public String getDataRate() {
+        return mDataRate;
+    }
 
     @Override
     public boolean equals(final Object other) {
@@ -89,26 +95,33 @@ public class Packet {
                     getTime().equals(otherPacket.getTime()) &&
                     getFrequency().equals(otherPacket.getFrequency()) &&
                     getRSSI().equals(otherPacket.getRSSI()) &&
-                    getSNR().equals(otherPacket.getSNR());
+                    getSNR().equals(otherPacket.getSNR()) &&
+                    getDataRate().equals(otherPacket.getDataRate());
         }
 
         return super.equals(other);
     }
 
     public static class Builder {
+        private Double mSNR;
         private String mData;
+        private Integer mRSSI;
+        private DateTime mTime;
+        private String mNodeEui;
         private String mDataRaw;
+        private String mDataRate;
         private String mDataJson;
         private String mDataPlain;
         private String mGatewayEui;
-        private String mNodeEui;
-        private DateTime mTime;
         private Double mFrequency;
-        private Integer mRSSI;
-        private Double mSNR;
 
         public Builder setData(String data) {
             mData = data;
+            return this;
+        }
+
+        public Builder setDataRate(String dataRate) {
+            mDataRate = dataRate;
             return this;
         }
 

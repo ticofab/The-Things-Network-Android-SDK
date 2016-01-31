@@ -27,14 +27,15 @@ import org.ttn.android.sdk.domain.packet.Packet;
  */
 public class MqttPacketConverter extends JsonConverter {
 
-    public static final String JSON_KEY_DATA_RAW = "rawData";
-    public static final String JSON_KEY_DATA = "data";
-    public static final String JSON_KEY_FREQUENCY = "frequency";
-    public static final String JSON_KEY_LAST_GATEWAY_EUI = "gatewayEui";
-    public static final String JSON_KEY_NODE_EUI = "nodeEui";
-    public static final String JSON_KEY_TIME = "time";
-    public static final String JSON_KEY_RSSI = "rssi";
     public static final String JSON_KEY_SNR = "snr";
+    public static final String JSON_KEY_TIME = "time";
+    public static final String JSON_KEY_DATA = "data";
+    public static final String JSON_KEY_RSSI = "rssi";
+    public static final String JSON_KEY_NODE_EUI = "nodeEui";
+    public static final String JSON_KEY_DATA_RAW = "rawData";
+    public static final String JSON_KEY_DATA_RATE = "datarate";
+    public static final String JSON_KEY_FREQUENCY = "frequency";
+    public static final String JSON_KEY_GATEWAY_EUI = "gatewayEui";
 
     @Override
     public Object fromJson(JSONObject jsonObj) throws JSONException {
@@ -44,12 +45,12 @@ public class MqttPacketConverter extends JsonConverter {
             builder.setData(jsonObj.getString(JSON_KEY_DATA));
         }
 
-        if (jsonObj.has(JSON_KEY_RSSI)) {
-            builder.setDataJson(jsonObj.getString(JSON_KEY_RSSI));
-        }
-
         if (jsonObj.has(JSON_KEY_DATA_RAW)) {
             builder.setDataRaw(JSON_KEY_DATA_RAW);
+        }
+
+        if (jsonObj.has(JSON_KEY_DATA_RATE)) {
+            builder.setDataRate(jsonObj.getString(JSON_KEY_DATA_RATE));
         }
 
         if (jsonObj.has(JSON_KEY_FREQUENCY)) {
@@ -64,8 +65,8 @@ public class MqttPacketConverter extends JsonConverter {
             builder.setSNR(jsonObj.getDouble(JSON_KEY_SNR));
         }
 
-        if (jsonObj.has(JSON_KEY_LAST_GATEWAY_EUI)) {
-            builder.setGatewayEui(jsonObj.getString(JSON_KEY_LAST_GATEWAY_EUI));
+        if (jsonObj.has(JSON_KEY_GATEWAY_EUI)) {
+            builder.setGatewayEui(jsonObj.getString(JSON_KEY_GATEWAY_EUI));
         }
 
         if (jsonObj.has(JSON_KEY_NODE_EUI)) {

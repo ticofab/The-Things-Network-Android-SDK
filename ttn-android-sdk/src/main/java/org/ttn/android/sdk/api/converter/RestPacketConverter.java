@@ -25,15 +25,34 @@ import org.ttn.android.sdk.domain.packet.Packet;
  *
  * Created by fabiotiriticco on 25/09/15.
  */
-public class PacketConverter extends JsonConverter {
+public class RestPacketConverter extends JsonConverter {
 
-    public static final String JSON_KEY_DATA_RAW = "data_raw";
+    // example of a packet from the rest api
+    /*
+    {
+        "data":"SGVsbG8h",
+        "datarate":"SF7BW125",
+        "snr":10,
+        "time":"2016-01-23T16:01:26.818Z",
+        "node_eui":"00409D23",
+        "data_raw":"QCOdQAAANgAB7INkYOqjGKkIOQ==",
+        "frequency":867.7,
+        "gateway_eui":"FFFEB827EBA36424",
+        "rssi":-43,
+        "data_plain":"Hello!"
+    }
+    */
+
     public static final String JSON_KEY_DATA = "data";
-    public static final String JSON_KEY_DATA_PLAIN = "data_plain";
-    public static final String JSON_KEY_LAST_GATEWAY_EUI = "last_gateway_eui";
-    public static final String JSON_KEY_NODE_EUI = "node_eui";
     public static final String JSON_KEY_TIME = "time";
+    public static final String JSON_KEY_RSSI = "rssi";
+    public static final String JSON_KEY_DATA_RAW = "data_raw";
+    public static final String JSON_KEY_NODE_EUI = "node_eui";
+    public static final String JSON_KEY_DATA_RATE = "datarate";
     public static final String JSON_KEY_DATA_JSON = "data_json";
+    public static final String JSON_KEY_FREQUENCY = "frequency";
+    public static final String JSON_KEY_DATA_PLAIN = "data_plain";
+    public static final String JSON_KEY_GATEWAY_EUI = "gateway_eui";
 
     @Override
     public Object fromJson(JSONObject jsonObj) throws JSONException {
@@ -41,6 +60,18 @@ public class PacketConverter extends JsonConverter {
 
         if (jsonObj.has(JSON_KEY_DATA)) {
             builder.setData(jsonObj.getString(JSON_KEY_DATA));
+        }
+
+        if (jsonObj.has(JSON_KEY_DATA_RATE)) {
+            builder.setDataRate(jsonObj.getString(JSON_KEY_DATA_RATE));
+        }
+
+        if (jsonObj.has(JSON_KEY_FREQUENCY)) {
+            builder.setFrequency(jsonObj.getDouble(JSON_KEY_FREQUENCY));
+        }
+
+        if (jsonObj.has(JSON_KEY_RSSI)) {
+            builder.setRSSI(jsonObj.getInt(JSON_KEY_RSSI));
         }
 
         if (jsonObj.has(JSON_KEY_DATA_JSON)) {
@@ -55,8 +86,8 @@ public class PacketConverter extends JsonConverter {
             builder.setDataRaw(JSON_KEY_DATA_RAW);
         }
 
-        if (jsonObj.has(JSON_KEY_LAST_GATEWAY_EUI)) {
-            builder.setGatewayEui(jsonObj.getString(JSON_KEY_LAST_GATEWAY_EUI));
+        if (jsonObj.has(JSON_KEY_GATEWAY_EUI)) {
+            builder.setGatewayEui(jsonObj.getString(JSON_KEY_GATEWAY_EUI));
         }
 
         if (jsonObj.has(JSON_KEY_NODE_EUI)) {
