@@ -27,13 +27,28 @@ import org.ttn.android.sdk.domain.packet.Packet;
  */
 public class MqttPacketConverter extends JsonConverter {
 
+    // example of a packet coming from MQTT
+    /*
+    {
+        "gatewayEui":"1DEE0DF33702B031",
+        "nodeEui":"02011B01",
+        "time":"2016-02-01T08:27:03.13697068Z",
+        "frequency":868.5,
+        "dataRate":"SF7BW125",
+        "rssi":-53,
+        "snr":7,
+        "rawData":"QAEbAQKACgABieNcoUcBwskLvCk80jPLrnxCSM4cDeQUqQJYELy0atRxChPhq9xhu2IV2zwpEp9U1cpZEC6VvelJ54Oh\/nENAuw=",
+        "data":"e3RlbXAwOjIxLjAwLHRlbXAxOjIzLjA2LHRlbXAyOjIzLjAwLHRlbXAzOjIzLjA2LGh1bWkwOjE3LjAwfQ=="
+    }
+    */
+
     public static final String JSON_KEY_SNR = "snr";
     public static final String JSON_KEY_TIME = "time";
     public static final String JSON_KEY_DATA = "data";
     public static final String JSON_KEY_RSSI = "rssi";
     public static final String JSON_KEY_NODE_EUI = "nodeEui";
     public static final String JSON_KEY_DATA_RAW = "rawData";
-    public static final String JSON_KEY_DATA_RATE = "datarate";
+    public static final String JSON_KEY_DATA_RATE = "dataRate";
     public static final String JSON_KEY_FREQUENCY = "frequency";
     public static final String JSON_KEY_GATEWAY_EUI = "gatewayEui";
 
