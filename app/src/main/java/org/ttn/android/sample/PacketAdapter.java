@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.joda.time.DateTime;
-import org.ttn.android.sdk.domain.packet.Packet;
+import org.ttn.android.sdk.v1.domain.Packet;
 
 import java.text.DateFormat;
 import java.util.List;
