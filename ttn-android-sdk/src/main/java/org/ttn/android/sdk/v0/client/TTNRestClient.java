@@ -14,7 +14,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /*
- * Copyright 2015 The Things Network
+ * Copyright 2016 Fabio Tiriticco / Fabway
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

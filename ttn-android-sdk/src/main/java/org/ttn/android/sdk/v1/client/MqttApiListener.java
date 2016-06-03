@@ -4,7 +4,7 @@ package org.ttn.android.sdk.v1.client;
 import org.ttn.android.sdk.v1.domain.Packet;
 
 /*
- * Copyright 2015 The Things Network
+ * Copyright 2016 Fabio Tiriticco / Fabway
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

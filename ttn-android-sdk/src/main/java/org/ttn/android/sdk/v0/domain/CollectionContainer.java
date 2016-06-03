@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /*
- * Copyright 2015 The Things Network
+ * Copyright 2016 Fabio Tiriticco / Fabway
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import java.util.Collection;
  * Created by fabiotiriticco on 20/11/15.
  *
  */
+@Deprecated
 public class CollectionContainer<T> {
 
     public Collection<T> mCollection = new ArrayList<>();
