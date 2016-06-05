@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.joda.time.DateTime;
-import org.ttn.android.sdk.domain.packet.Packet;
+import org.ttn.android.sdk.v1.domain.Packet;
 
 import java.text.DateFormat;
 import java.util.List;
@@ -17,7 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /*
- * Copyright 2015 The Things Network
+ * Copyright 2016 Fabio Tiriticco / Fabway
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,6 +54,7 @@ public class PacketAdapter extends RecyclerView.Adapter<PacketAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder vh, int position) {
         Packet packet = mPackets.get(position);
 
+        /*
         // node eui
         String nodeEui = packet.getNodeEui();
         if (!TextUtils.isEmpty(nodeEui)) {
@@ -86,6 +87,7 @@ public class PacketAdapter extends RecyclerView.Adapter<PacketAdapter.ViewHolder
             vh.mData.setVisibility(View.GONE);
             vh.mData.setText(null);
         }
+        */
     }
 
     @Override
