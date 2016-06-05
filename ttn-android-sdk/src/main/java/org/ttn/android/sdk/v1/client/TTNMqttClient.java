@@ -2,6 +2,10 @@ package org.ttn.android.sdk.v1.client;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
+
 import org.fusesource.hawtbuf.Buffer;
 import org.fusesource.hawtbuf.UTF8Buffer;
 import org.fusesource.mqtt.client.Callback;
@@ -10,8 +14,10 @@ import org.fusesource.mqtt.client.Listener;
 import org.fusesource.mqtt.client.MQTT;
 import org.fusesource.mqtt.client.QoS;
 import org.fusesource.mqtt.client.Topic;
+import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.ttn.android.sdk.v1.api.DateTimeConverter;
 import org.ttn.android.sdk.v1.api.MqttPacketConverter;
 import org.ttn.android.sdk.v1.domain.Packet;
 
@@ -37,17 +43,20 @@ import java.net.URISyntaxException;
 public class TTNMqttClient {
     private static final int MQTT_HOST_PORT = 1883;
 
-    Topic mTopic;
-    MQTT mMqtt = new MQTT();
+    final Gson mGson;
+    final Topic mTopic;
+    final MQTT mMqtt = new MQTT();
     CallbackConnection mConnection;
-    MqttPacketConverter mMqttPacketConverter = new MqttPacketConverter();
 
     public TTNMqttClient(String broker, String appEUI, String accessKey, String devEUI) {
+        mGson = new GsonBuilder()
+                .registerTypeAdapter(DateTime.class, new DateTimeConverter())
+                .create();
+        mTopic = new Topic(appEUI + "/devices/" + devEUI + "/up", QoS.AT_LEAST_ONCE);
         try {
-            mMqtt.setHost(broker, MQTT_HOST_PORT);
+            mMqtt.setHost("tcp://" + broker + ":" + MQTT_HOST_PORT);
             mMqtt.setUserName(appEUI);
             mMqtt.setPassword(accessKey);
-            mTopic = new Topic(appEUI + "/devices/" + devEUI + "/down", QoS.AT_LEAST_ONCE);
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -74,10 +83,10 @@ public class TTNMqttClient {
             public void onPublish(UTF8Buffer topic, Buffer body, Runnable ack) {
 
                 try {
-                    JSONObject jsonObj = new JSONObject(body.ascii().toString());
-                    Packet packet = (Packet) mMqttPacketConverter.fromJson(jsonObj);
+                    String jsonStr = body.ascii().toString();
+                    Packet packet = mGson.fromJson(jsonStr, Packet.class);
                     listener.onPacket(packet);
-                } catch (JSONException e) {
+                } catch (JsonSyntaxException e) {
                     listener.onError(e);
                 }
 

@@ -54,6 +54,7 @@ public class PacketAdapter extends RecyclerView.Adapter<PacketAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder vh, int position) {
         Packet packet = mPackets.get(position);
 
+        /*
         // node eui
         String nodeEui = packet.getNodeEui();
         if (!TextUtils.isEmpty(nodeEui)) {
@@ -86,6 +87,7 @@ public class PacketAdapter extends RecyclerView.Adapter<PacketAdapter.ViewHolder
             vh.mData.setVisibility(View.GONE);
             vh.mData.setText(null);
         }
+        */
     }
 
     @Override
