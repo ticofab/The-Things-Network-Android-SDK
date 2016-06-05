@@ -2,6 +2,7 @@ package org.ttn.android.sample;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import org.joda.time.DateTime;
 import org.ttn.android.sdk.v1.domain.Packet;
 
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.util.List;
 
@@ -54,40 +56,42 @@ public class PacketAdapter extends RecyclerView.Adapter<PacketAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder vh, int position) {
         Packet packet = mPackets.get(position);
 
-        /*
         // node eui
-        String nodeEui = packet.getNodeEui();
+        String nodeEui = packet.getDevEUI();
         if (!TextUtils.isEmpty(nodeEui)) {
             vh.mDeviceId.setVisibility(View.VISIBLE);
-            vh.mDeviceId.setText(packet.getNodeEui());
+            vh.mDeviceId.setText(nodeEui);
         } else {
             vh.mDeviceId.setVisibility(View.GONE);
             vh.mDeviceId.setText(null);
         }
 
         // timestamp
-        DateTime date = packet.getTime();
+        DateTime date = packet.getMetadata().get(0).getServerTime();
         if (date != null) {
             vh.mTime.setVisibility(View.VISIBLE);
-            vh.mTime.setText(mDateFormatter.format(packet.getTime().toDate()));
+            vh.mTime.setText(mDateFormatter.format(date.toDate()));
         } else {
             vh.mTime.setVisibility(View.GONE);
             vh.mTime.setText(null);
         }
 
         // Print the packet data. Try the most human-readable format.
-        String data = TextUtils.isEmpty(packet.getDataPlain()) ?
-                (TextUtils.isEmpty(packet.getData()) ?
-                        (TextUtils.isEmpty(packet.getDataRaw()) ?
-                                null : packet.getDataRaw()) : packet.getData()) : packet.getDataPlain();
-        if (!TextUtils.isEmpty(data)) {
-            vh.mData.setText(data);
-            vh.mData.setVisibility(View.VISIBLE);
+        String payload = packet.getPayload();
+        if (!TextUtils.isEmpty(payload)) {
+            // Receiving side
+            byte[] data = Base64.decode(payload, Base64.DEFAULT);
+            try {
+                String text = new String(data, "UTF-8");
+                vh.mData.setText(text);
+                vh.mData.setVisibility(View.VISIBLE);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         } else {
             vh.mData.setVisibility(View.GONE);
             vh.mData.setText(null);
         }
-        */
     }
 
     @Override

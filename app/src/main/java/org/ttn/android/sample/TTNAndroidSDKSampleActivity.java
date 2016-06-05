@@ -1,5 +1,6 @@
 package org.ttn.android.sample;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,6 +40,7 @@ import butterknife.ButterKnife;
  * Created by fabiotiriticco on 3 June 2016.
  */
 public class TTNAndroidSDKSampleActivity extends AppCompatActivity {
+    // log tag
     private static final String TAG = TTNAndroidSDKSampleActivity.class.getSimpleName();
 
     // credentials to connect
@@ -67,6 +69,9 @@ public class TTNAndroidSDKSampleActivity extends AppCompatActivity {
 
         // bind views.
         ButterKnife.bind(this);
+
+        // setup toolbar
+        mToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
 
         // initially, setup recycler view to show nodes
