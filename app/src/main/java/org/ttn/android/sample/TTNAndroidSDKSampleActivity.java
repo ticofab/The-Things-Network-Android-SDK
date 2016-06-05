@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -37,8 +38,10 @@ import butterknife.ButterKnife;
  *
  * Created by fabiotiriticco on 3 June 2016.
  */
-public class MainActivity extends AppCompatActivity {
+public class TTNAndroidSDKSampleActivity extends AppCompatActivity {
+    private static final String TAG = TTNAndroidSDKSampleActivity.class.getSimpleName();
 
+    // credentials to connect
     private static final String APP_EUI = "70B3D57ED0000002";
     private static final String STAGING_HOST = "staging.thethingsnetwork.org";
     private static final String ACCESS_KEY = "vIfs1MdSwxlDevULfj50xXcblAGXwY7lI7aFkk8CcnI=";
@@ -80,10 +83,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
 
-        // last check to disconnect the MQTT client
+        // the MQTT client
         mTTNMqttClient.disconnect();
     }
 
@@ -106,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPacket(final Packet packet) {
                 // notify user
+                Log.d(TAG, "onPacket");
                 toastOnUiThread(getString(R.string.packet_received));
 
                 runOnUiThread(new Runnable() {
@@ -122,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onError(final Throwable throwable) {
                 // notify user
+                Log.e(TAG, "onError: " + throwable.getMessage());
                 toastOnUiThread(getString(R.string.mqtt_error, throwable.getMessage()));
             }
 
@@ -130,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Log.d(TAG, "onConnected");
                         mProgressBar.setVisibility(View.GONE);
                     }
                 });
@@ -140,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Log.d(TAG, "onDisconnected");
                         mProgressBar.setVisibility(View.GONE);
                     }
                 });
@@ -151,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+                Toast.makeText(TTNAndroidSDKSampleActivity.this, message, Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -16,7 +16,7 @@ public class Metadata {
     String mCodingRate;
 
     @SerializedName("gateway_timestamp")
-    int mGatewayTimestamp;
+    Long mGatewayTimestamp;
 
     @SerializedName("gateway_time")
     DateTime mGateWayTime;
@@ -53,4 +53,68 @@ public class Metadata {
 
     @SerializedName("longitude")
     Double mLongitude;
+
+    public Double getFrequency() {
+        return mFrequency;
+    }
+
+    public String getDatarate() {
+        return mDatarate;
+    }
+
+    public String getCodingRate() {
+        return mCodingRate;
+    }
+
+    public Long getGatewayTimestamp() {
+        return mGatewayTimestamp;
+    }
+
+    public DateTime getGateWayTime() {
+        return mGateWayTime;
+    }
+
+    public int getChannel() {
+        return mChannel;
+    }
+
+    public DateTime getServerTime() {
+        return mServerTime;
+    }
+
+    public int getRSSI() {
+        return mRSSI;
+    }
+
+    public Double getLSNR() {
+        return mLSNR;
+    }
+
+    public int getRFChain() {
+        return mRFChain;
+    }
+
+    public int getCRC() {
+        return mCRC;
+    }
+
+    public String getModulation() {
+        return mModulation;
+    }
+
+    public String getGatewayEUI() {
+        return mGatewayEUI;
+    }
+
+    public int getAltitude() {
+        return mAltitude;
+    }
+
+    public Double getLatitude() {
+        return mLatitude;
+    }
+
+    public Double getLongitude() {
+        return mLongitude;
+    }
 }

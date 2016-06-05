@@ -6,22 +6,9 @@ import java.util.List;
 
 public class Packet {
 
-    @SerializedName("payload")
-    String mPayload;
+    /*
+    Example incoming uplink packet:
 
-    @SerializedName("port")
-    int mPort;
-
-    @SerializedName("counter")
-    int mCounter;
-
-    @SerializedName("dev_eui")
-    String mDevEUI;
-
-    @SerializedName("metadata")
-    List<Metadata> mMetadata;
-
-/*
     {
         "payload":"CUUCbw==",
         "fields":{
@@ -52,7 +39,50 @@ public class Packet {
         }
         ]
     }
-*/
+    */
+
+
+    @SerializedName("payload")
+    String mPayload;
+
+    @SerializedName("port")
+    int mPort;
+
+    @SerializedName("counter")
+    int mCounter;
+
+    @SerializedName("dev_eui")
+    String mDevEUI;
+
+    @SerializedName("metadata")
+    List<Metadata> mMetadata;
+
+    @SerializedName("ttl")
+    String mTTL;
+
+    public String getPayload() {
+        return mPayload;
+    }
+
+    public int getPort() {
+        return mPort;
+    }
+
+    public int getCounter() {
+        return mCounter;
+    }
+
+    public String getDevEUI() {
+        return mDevEUI;
+    }
+
+    public List<Metadata> getMetadata() {
+        return mMetadata;
+    }
+
+    public String getTTL() {
+        return mTTL;
+    }
 
 }
 

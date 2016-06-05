@@ -1,7 +1,5 @@
 package org.ttn.android.sdk.v1.client;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -15,10 +13,7 @@ import org.fusesource.mqtt.client.MQTT;
 import org.fusesource.mqtt.client.QoS;
 import org.fusesource.mqtt.client.Topic;
 import org.joda.time.DateTime;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.ttn.android.sdk.v1.api.DateTimeConverter;
-import org.ttn.android.sdk.v1.api.MqttPacketConverter;
 import org.ttn.android.sdk.v1.domain.Packet;
 
 import java.net.URISyntaxException;
@@ -69,13 +64,11 @@ public class TTNMqttClient {
         mConnection.listener(new Listener() {
             @Override
             public void onConnected() {
-                Log.d("t", "onConnected");
                 listener.onConnected();
             }
 
             @Override
             public void onDisconnected() {
-                Log.d("t", "onDisconnected");
                 listener.onDisconnected();
             }
 
@@ -95,7 +88,6 @@ public class TTNMqttClient {
 
             @Override
             public void onFailure(Throwable value) {
-                Log.d("t", "onFailure");
                 listener.onError(value);
             }
         });
