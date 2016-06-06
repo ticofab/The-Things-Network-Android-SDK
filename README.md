@@ -6,11 +6,13 @@ Android SDK to interact with the API of [The Things Network](http://thethingsnet
 Sample App
 ----------
 
-Try the sample app on your device (and report issues if you find any!):
+The sample app serves as an example. You can try it on your device:
 
 <a href="https://play.google.com/store/apps/details?id=org.ttn.android.sample&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-AC-global-none-all-co-pr-py-PartBadges-Oct1515-1"><img width="200" alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png" /></a>
 
 ![Sample app screenshot](https://github.com/ticofab/The-Things-Network-Android-SDK/blob/master/img/sample-screenshot.png)
+
+Note that you won't be able to receive packets if you build the app yourself, as you need the right credentials.
 
 Download SDK
 ------------
