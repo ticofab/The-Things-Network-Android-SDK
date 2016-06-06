@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+Version 2.0.0 *(2016-06-05)*
+----------------------------
+
+ * updated to the new TTN backend
+ * deprecated v0 API
+ * bugfixes
+ * updated sample app
+
 Version 1.1.1 *(2016-31-01)*
 ----------------------------
 

@@ -1,8 +1,6 @@
-package org.ttn.android.sdk.application;
+package org.ttn.android.sdk.v0.api.listeners;
 
-import android.app.Application;
-
-import net.danlew.android.joda.JodaTimeAndroid;
+import org.ttn.android.sdk.v0.domain.packet.Packet;
 
 /*
  * Copyright 2016 Fabio Tiriticco / Fabway
@@ -19,16 +17,12 @@ import net.danlew.android.joda.JodaTimeAndroid;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Created by fabiotiriticco on 5 June 2016.
+ * Created by fabiotiriticco on 20/11/15.
  *
  */
-public class TTNAndroidSDKApp extends Application {
+@Deprecated
+public interface MqttApiListener {
+    void onPacket(Packet packet);
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        // init joda date time
-        JodaTimeAndroid.init(this);
-    }
+    void onError(Throwable throwable);
 }

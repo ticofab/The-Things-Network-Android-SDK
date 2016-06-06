@@ -1,8 +1,8 @@
-package org.ttn.android.sdk.application;
+package org.ttn.android.sample;
 
-import android.app.Application;
+import com.robinhood.spark.SparkAdapter;
 
-import net.danlew.android.joda.JodaTimeAndroid;
+import java.util.List;
 
 /*
  * Copyright 2016 Fabio Tiriticco / Fabway
@@ -22,13 +22,26 @@ import net.danlew.android.joda.JodaTimeAndroid;
  * Created by fabiotiriticco on 5 June 2016.
  *
  */
-public class TTNAndroidSDKApp extends Application {
+public class TemperatureAdapter extends SparkAdapter {
+
+    List<Payload> mPayloads;
+
+    public TemperatureAdapter(List<Payload> payloads) {
+        mPayloads = payloads;
+    }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
+    public int getCount() {
+        return mPayloads.size();
+    }
 
-        // init joda date time
-        JodaTimeAndroid.init(this);
+    @Override
+    public Object getItem(int index) {
+        return mPayloads.get(index);
+    }
+
+    @Override
+    public float getY(int index) {
+        return Float.valueOf(mPayloads.get(index).mTemp.toString());
     }
 }

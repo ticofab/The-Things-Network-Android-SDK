@@ -13,7 +13,7 @@ ext {
     siteUrl = 'https://github.com/TheThingsNetwork/android-sdk'
     gitUrl = 'https://github.com/TheThingsNetwork/android-sdk.git'
 
-    libraryVersion = '1.1.1'
+    libraryVersion = '2.0.0'
 
     developerId = 'ticofab'
     developerName = 'Fabio Tiriticco'
@@ -26,15 +26,15 @@ ext {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 3
+        versionCode 4
 
         // http://semver.org
-        versionName "1.1.1"
+        versionName "2.0.0"
     }
     buildTypes {
         release {
@@ -54,7 +54,7 @@ dependencies {
 
     // JodaTime for Android
     // https://github.com/dlew/joda-time-android
-    compile 'net.danlew:android.joda:2.8.2'
+    compile 'net.danlew:android.joda:2.9.3.1'
 
     // mqtt client
     // https://github.com/fusesource/mqtt-client

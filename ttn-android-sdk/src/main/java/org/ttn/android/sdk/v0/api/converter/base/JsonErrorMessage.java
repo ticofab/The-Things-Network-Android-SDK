@@ -1,8 +1,4 @@
-package org.ttn.android.sdk.application;
-
-import android.app.Application;
-
-import net.danlew.android.joda.JodaTimeAndroid;
+package org.ttn.android.sdk.v0.api.converter.base;
 
 /*
  * Copyright 2016 Fabio Tiriticco / Fabway
@@ -19,16 +15,19 @@ import net.danlew.android.joda.JodaTimeAndroid;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Created by fabiotiriticco on 5 June 2016.
+ * Created by fabiotiriticco on 25/09/15.
  *
  */
-public class TTNAndroidSDKApp extends Application {
+public class JsonErrorMessage {
+    public static String unexpectedObject(Class expectedObj, Object foundObj) {
+        return "Wrong object. Expected "
+                + expectedObj.getSimpleName()
+                + ", found "
+                + foundObj.getClass().getSimpleName()
+                + ".";
+    }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        // init joda date time
-        JodaTimeAndroid.init(this);
+    public static String missingMandatoryValue(String field) {
+        return "Missing mandatory value: " + field;
     }
 }

@@ -1,8 +1,6 @@
-package org.ttn.android.sdk.application;
+package org.ttn.android.sample;
 
-import android.app.Application;
-
-import net.danlew.android.joda.JodaTimeAndroid;
+import android.util.Base64;
 
 /*
  * Copyright 2016 Fabio Tiriticco / Fabway
@@ -22,13 +20,19 @@ import net.danlew.android.joda.JodaTimeAndroid;
  * Created by fabiotiriticco on 5 June 2016.
  *
  */
-public class TTNAndroidSDKApp extends Application {
+class Payload {
+    Integer mLux;
+    Double mTemp;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
+    public Payload(Double temp, Integer lux) {
+        mTemp = temp;
+        mLux = lux;
+    }
 
-        // init joda date time
-        JodaTimeAndroid.init(this);
+    static Payload fromEncodedPayload(String encodedPayload) {
+        byte[] bytes = Base64.decode(encodedPayload, Base64.DEFAULT);
+        double temp = (double) ((bytes[0] << 8) | bytes[1]) / 100;
+        int lux = (bytes[2] << 8) | bytes[3];
+        return new Payload(temp, lux);
     }
 }
