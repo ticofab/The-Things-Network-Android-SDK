@@ -45,9 +45,9 @@ public class TTNAndroidSDKSampleActivity extends AppCompatActivity {
     private static final String TAG = TTNAndroidSDKSampleActivity.class.getSimpleName();
 
     // credentials to connect
-    private static final String APP_EUI = "70B3D57ED0000002";
+    private static final String APP_EUI = "YOUR_APP_EUI_HERE";
     private static final String STAGING_HOST = "staging.thethingsnetwork.org";
-    private static final String ACCESS_KEY = "vIfs1MdSwxlDevULfj50xXcblAGXwY7lI7aFkk8CcnI=";
+    private static final String ACCESS_KEY = "YOUR_ACCESS_KEY_HERE=";
 
     // our views
     @Bind(R.id.toolbar) Toolbar mToolbar;
