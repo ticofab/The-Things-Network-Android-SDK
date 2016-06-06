@@ -26,7 +26,7 @@ Usage
 
 Please refer to the sample app. These are the main steps:
 
-1) Get a TTNRestClient instance:
+1) Get a TTNMqttClient instance:
 
 ```java
 // instantiate a new client passing host, app EUI and access key, device to track ("+" for all devices)
@@ -50,10 +50,14 @@ public interface MqttApiListener {
 ```java
 mTTNMqttClient.listen(new MqttApiListener() {
   ...
-}
+});
 ```
 
 That's basically it! Remember to unsubscribe when done.
+
+```java
+mTTNMqttClient.disconnect();
+```
 
 Deprecation
 -----------
@@ -65,7 +69,7 @@ Dependencies
 
 SDK:
 
-* [Retrofit](http://square.github.io/retrofit/)
+* [Retrofit](http://square.github.io/retrofit/) [only for the deprecated API v0]
 * [MQTT-Client](https://github.com/fusesource/mqtt-client)
 * [Joda DateTime for Android](https://github.com/dlew/joda-time-android)
 
