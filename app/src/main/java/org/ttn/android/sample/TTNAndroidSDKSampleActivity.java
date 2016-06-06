@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -121,6 +122,7 @@ public class TTNAndroidSDKSampleActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         // insert packet at the top of the list
+                        Payload paylod = Payload.fromEncodedPayload(packet.getPayload());
                         mPackets.add(0, packet);
                         mPacketAdapter.notifyItemInserted(0);
                         mDataList.scrollToPosition(0);
@@ -167,4 +169,6 @@ public class TTNAndroidSDKSampleActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

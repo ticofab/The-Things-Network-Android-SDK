@@ -11,10 +11,6 @@ public class Packet {
 
     {
         "payload":"CUUCbw==",
-        "fields":{
-            "lux":623,
-            "temperature":23.73
-        },
         "port":1,
         "counter":4950,
         "dev_eui":"0004A30B001B442B",
@@ -40,7 +36,6 @@ public class Packet {
         ]
     }
     */
-
 
     @SerializedName("payload")
     String mPayload;
