@@ -13,7 +13,7 @@ ext {
     siteUrl = 'https://github.com/TheThingsNetwork/android-sdk'
     gitUrl = 'https://github.com/TheThingsNetwork/android-sdk.git'
 
-    libraryVersion = '1.1.1'
+    libraryVersion = '2.0.0'
 
     developerId = 'ticofab'
     developerName = 'Fabio Tiriticco'
@@ -31,10 +31,10 @@ android {
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 3
+        versionCode 4
 
         // http://semver.org
-        versionName "1.1.1"
+        versionName "2.0.0"
     }
     buildTypes {
         release {

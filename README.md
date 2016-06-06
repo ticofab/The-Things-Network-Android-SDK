@@ -6,15 +6,11 @@ Android SDK to interact with the API of [The Things Network](http://thethingsnet
 Sample App
 ----------
 
-Check the sample app for examples on how to use the code.
-
-* First, it uses the REST API to get the available nodes.
-* Click on one and it loads all available packets from that node.
-* ..and it subscribes to the MQTT client to receive new packets as they are published.
-
 Try the sample app on your device (and report issues if you find any!):
 
 <a href="https://play.google.com/store/apps/details?id=org.ttn.android.sample&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-AC-global-none-all-co-pr-py-PartBadges-Oct1515-1"><img width="200" alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png" /></a>
+
+![Sample app screenshot](https://github.com/ticofab/ttn-android-sdk/blob/master/img/sample-screenshot.png)
 
 Download SDK
 ------------
@@ -22,89 +18,47 @@ Download SDK
 Grab via gradle:
 
 ```groovy
-compile 'io.ticofab:ttn-android-sdk:1.1.1'
+compile 'io.ticofab:ttn-android-sdk:2.0.0'
 ```
 
 Usage
 -----
 
-This is going to evolve fast, so for the time being refer to the sample app.
+Please refer to the sample app. These are the main steps:
 
-**REST API**
-
-Get a TTNRestClient instance:
+1) Get a TTNRestClient instance:
 
 ```java
-final TTNRestClient mTTNRestClient = new TTNRestClient(); // consider injection
+// instantiate a new client passing host, app EUI and access key, device to track ("+" for all devices)
+TTNMqttClient mTTNMqttClient = new TTNMqttClient(STAGING_HOST, APP_EUI, ACCESS_KEY, "+");
 ```
 
-Then use it to get packets, passing a Listener:
+2) Subscribe to updates using a listener implementation of the MqttApiListener interface.
 
 ```java
-public void getPackets(String nodeEui,
-                       String timeSpan,
-                       Integer limit,
-                       Integer offset,
-                       final ApiListener<Packet> packetListener);
+public interface MqttApiListener {
+    void onPacket(Packet packet);
 
-mTTNRestClient.getPackets("my_node_eui", null, null, null, new ApiListener<Packet>() {
-    @Override
-    public void onResult(List<Packet> packets) {
-        // got packets
-    }
+    void onError(Throwable throwable);
 
-    @Override
-    public void onError() {
-        // error
-    }
-});
+    void onConnected();
+
+    void onDisconnected();
+}
 ```
-Beside packets, through TTNClient you can get this way also nodes, gateways and gateway statuses:
 
 ```java
-public void getNodes(String timeSpan,
-                     final ApiListener<Node> nodeListener);
-
-public void getGateways(String timeSpan,
-                        Integer limit,
-                        Integer offset,
-                        final ApiListener<Gateway> gatewayListener);
-
-public void getGatewayStatuses(String gatewayEui,
-                               String timeSpan,
-                               Integer limit,
-                               Integer offset,
-                               final ApiListener<GatewayStatus> gsListener);
+mTTNMqttClient.listen(new MqttApiListener() {
+  ...
+}
 ```
 
-**MQTT API**
+That's basically it! Remember to unsubscribe when done.
 
-This API lets you listen to all or one specific node.
+Deprecation
+-----------
 
-Get a TTNMqttClient instance:
-
-```java
-final TTNMqttClient mTTNMqttClient = new TTNMqttClient(); // consider injection
-```
-
-Then, you can subscribe for updates from a specific packet passing a listener:
-
-```java
-// subscribe for new packets.
-mTTNMqttClient.packets("myNodeEui", new MqttApiListener() {
-    @Override
-    public void onPacket(final Packet packet) {
-        // do something
-        // NOTE: this callback doesn't happen on the main thread!
-    }
-
-    @Override
-    public void onError(final Throwable throwable) {
-        // error
-        // NOTE: this callback doesn't happen on the main thread!
-    }
-});
-```
+The SDK also offers capabilities to use the API v0, which had REST endpoint next to the MQTT one. For instructions, refer to older version of this Readme. Those API are considered deprecated and will eventually be discontinued.
 
 Dependencies
 ------------
@@ -118,9 +72,8 @@ SDK:
 SAMPLE:
 
 * [ButterKnife](http://jakewharton.github.io/butterknife/)
-* [Otto Event Bus](http://square.github.io/otto/)
 * [Material Progress Bar](https://github.com/lsjwzh/MaterialLoadingProgressBar)
-
+* [Spark Chart Line](https://github.com/robinhood/spark)
 
 License
 --------
