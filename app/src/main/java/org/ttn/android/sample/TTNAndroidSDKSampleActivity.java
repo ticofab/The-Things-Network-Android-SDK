@@ -6,12 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
+import com.robinhood.spark.SparkView;
 
 import org.ttn.android.sdk.v1.client.MqttApiListener;
 import org.ttn.android.sdk.v1.client.TTNMqttClient;
@@ -52,16 +52,19 @@ public class TTNAndroidSDKSampleActivity extends AppCompatActivity {
     // our views
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.packet_list) RecyclerView mDataList;
+    @Bind(R.id.temperature_view) SparkView mTempView;
     @Bind(R.id.progress_bar) CircleProgressBar mProgressBar;
-
-    // store the received packets and nodes. This is sample app so we let them grow indefinitely.
-    final List<Packet> mPackets = new ArrayList<>();
 
     // the client
     TTNMqttClient mTTNMqttClient;
 
-    // adapter
+    // store the received packets and nodes. This is sample app so we let them grow indefinitely.
+    final List<Packet> mPackets = new ArrayList<>();
+    final List<Payload> mPayloads = new ArrayList<>();
+
+    // adapters
     final PacketAdapter mPacketAdapter = new PacketAdapter(mPackets);
+    final TemperatureAdapter mTemperatureAdapter = new TemperatureAdapter(mPayloads);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,9 @@ public class TTNAndroidSDKSampleActivity extends AppCompatActivity {
         // initially, setup recycler view to show nodes
         mDataList.setLayoutManager(new LinearLayoutManager(this));
         mDataList.setAdapter(mPacketAdapter);
+
+        // setup temperature viewer
+        mTempView.setAdapter(mTemperatureAdapter);
     }
 
     @Override
@@ -122,10 +128,14 @@ public class TTNAndroidSDKSampleActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         // insert packet at the top of the list
-                        Payload paylod = Payload.fromEncodedPayload(packet.getPayload());
                         mPackets.add(0, packet);
                         mPacketAdapter.notifyItemInserted(0);
                         mDataList.scrollToPosition(0);
+
+                        // update temp chart
+                        Payload payload = Payload.fromEncodedPayload(packet.getPayload());
+                        mPayloads.add(payload);
+                        mTemperatureAdapter.notifyDataSetChanged();
                     }
                 });
             }

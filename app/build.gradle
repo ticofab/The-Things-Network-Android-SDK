@@ -38,4 +38,8 @@ dependencies {
     // material progress bar
     // https://github.com/lsjwzh/MaterialLoadingProgressBar
     compile('com.lsjwzh:materialloadingprogressbar:0.5.8-RELEASE')
+
+    // chart line
+    // https://github.com/robinhood/spark
+    compile 'com.robinhood.spark:spark:1.1.0'
 }

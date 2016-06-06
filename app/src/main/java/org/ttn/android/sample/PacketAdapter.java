@@ -2,7 +2,6 @@ package org.ttn.android.sample;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 import org.joda.time.DateTime;
 import org.ttn.android.sdk.v1.domain.Packet;
 
-import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.util.List;
 
@@ -33,14 +31,14 @@ import butterknife.ButterKnife;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Created by fabiotiriticco on 25/09/15.
+ * Created by fabiotiriticco on 5 June 2016.
  *
  */
 
 public class PacketAdapter extends RecyclerView.Adapter<PacketAdapter.ViewHolder> {
 
     List<Packet> mPackets;
-    DateFormat mDateFormatter = DateFormat.getDateInstance(DateFormat.FULL);
+    DateFormat mDateFormatter = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.MEDIUM);
 
     public PacketAdapter(List<Packet> packets) {
         mPackets = packets;
@@ -75,23 +73,6 @@ public class PacketAdapter extends RecyclerView.Adapter<PacketAdapter.ViewHolder
             vh.mTime.setVisibility(View.GONE);
             vh.mTime.setText(null);
         }
-
-        // Print the packet data. Try the most human-readable format.
-        String payload = packet.getPayload();
-        if (!TextUtils.isEmpty(payload)) {
-            // Receiving side
-            byte[] data = Base64.decode(payload, Base64.DEFAULT);
-            try {
-                String text = new String(data, "UTF-8");
-                vh.mData.setText(text);
-                vh.mData.setVisibility(View.VISIBLE);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        } else {
-            vh.mData.setVisibility(View.GONE);
-            vh.mData.setText(null);
-        }
     }
 
     @Override
@@ -101,7 +82,6 @@ public class PacketAdapter extends RecyclerView.Adapter<PacketAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.packet_time) TextView mTime;
-        @Bind(R.id.packet_data) TextView mData;
         @Bind(R.id.packet_device_id) TextView mDeviceId;
 
         public ViewHolder(View itemView) {
