@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".TTNAndroidSDKSampleActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:alpha="0.25"
+        android:src="@drawable/the_things_network_logo"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/packet_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.65"
+            android:padding="8dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.05"
+            android:gravity="center_horizontal"
+            android:text="Temperature variation in TTN office:"/>
+
+        <com.robinhood.spark.SparkView
+            android:id="@+id/temperature_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.25"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            app:spark_lineColor="@color/colorPrimary"/>
+
+    </LinearLayout>
+
+    <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="@dimen/progress_bar_size"
+        android:layout_height="@dimen/progress_bar_size"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        app:mlpb_enable_circle_background="true"
+        app:mlpb_progress_color="@color/colorPrimary"/>
+
+</RelativeLayout>
