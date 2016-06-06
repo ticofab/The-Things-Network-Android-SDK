@@ -64,7 +64,7 @@ mTTNMqttClient.disconnect();
 Deprecation
 -----------
 
-The SDK also offers capabilities to use the API v0, which had REST endpoint next to the MQTT one. For instructions, refer to older version of this Readme. Those API are considered deprecated and will eventually be discontinued.
+The SDK also offers capabilities to use the API v0, which had REST endpoint next to the MQTT one. Those API are considered deprecated and will eventually be discontinued.
 
 Dependencies
 ------------
