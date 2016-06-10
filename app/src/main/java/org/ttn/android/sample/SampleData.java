@@ -1,0 +1,67 @@
+package org.ttn.android.sample;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.joda.time.DateTime;
+import org.ttn.android.sdk.v1.api.DateTimeConverter;
+import org.ttn.android.sdk.v1.domain.Packet;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/*
+ * Copyright 2016 Fabio Tiriticco / Fabway
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Created by fabiotiriticco on 3 June 2016.
+ */
+
+/**
+ * This class holds sample data for showing purposes, nothing more!
+ */
+public class SampleData {
+    static public List<Packet> mSamplePackets = new ArrayList<>();
+    static public List<Payload> mSamplePayloads = new ArrayList<>();
+
+    static {
+        String[] ar = new String[]{
+                "{\"payload\":\"CCAB3A==\",\"fields\":{\"lux\":476,\"temperature\":20.8},\"port\":1,\"counter\":124,\"dev_eui\":\"0004A30B001B442B\",\"metadata\":[{\"frequency\":868.5,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":1660344804,\"gateway_time\":\"2016-06-10T12:38:40.955431Z\",\"channel\":0,\"server_time\":\"2016-06-10T12:38:40.964266174Z\",\"rssi\":-108,\"lsnr\":8.2,\"rfchain\":1,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"0000024B08060112\",\"altitude\":20,\"longitude\":4.8867,\"latitude\":52.37363},{\"frequency\":868.1,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":3041599164,\"gateway_time\":\"2016-06-10T12:43:37.574881Z\",\"channel\":0,\"server_time\":\"2016-06-10T12:38:40.972649453Z\",\"rssi\":-105,\"lsnr\":6.2,\"rfchain\":0,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"008000000000A08E\",\"altitude\":0,\"longitude\":0,\"latitude\":0}]}",
+                "{\"payload\":\"CFAB1A==\",\"fields\":{\"lux\":468,\"temperature\":21.28},\"port\":1,\"counter\":125,\"dev_eui\":\"0004A30B001B442B\",\"metadata\":[{\"frequency\":867.7,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":1682526476,\"gateway_time\":\"2016-06-10T12:39:03.1371Z\",\"channel\":4,\"server_time\":\"2016-06-10T12:39:03.144784703Z\",\"rssi\":-113,\"lsnr\":3.5,\"rfchain\":0,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"0000024B08060112\",\"altitude\":20,\"longitude\":4.88669,\"latitude\":52.3736},{\"frequency\":867.3,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":3063780828,\"gateway_time\":\"2016-06-10T12:43:59.756872Z\",\"channel\":4,\"server_time\":\"2016-06-10T12:39:03.155101346Z\",\"rssi\":-109,\"lsnr\":-1.5,\"rfchain\":1,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"008000000000A08E\",\"altitude\":0,\"longitude\":0,\"latitude\":0}]}",
+                "{\"payload\":\"CCAB1g==\",\"fields\":{\"lux\":470,\"temperature\":20.8},\"port\":1,\"counter\":126,\"dev_eui\":\"0004A30B001B442B\",\"metadata\":[{\"frequency\":868.1,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":1704708236,\"gateway_time\":\"2016-06-10T12:39:25.318857Z\",\"channel\":6,\"server_time\":\"2016-06-10T12:39:25.33303161Z\",\"rssi\":-109,\"lsnr\":3.8,\"rfchain\":1,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"0000024B08060112\",\"altitude\":20,\"longitude\":4.88669,\"latitude\":52.3736},{\"frequency\":867.7,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":3085962588,\"gateway_time\":\"2016-06-10T12:44:21.950254Z\",\"channel\":6,\"server_time\":\"2016-06-10T12:39:25.348877536Z\",\"rssi\":-108,\"lsnr\":-1.8,\"rfchain\":1,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"008000000000A08E\",\"altitude\":0,\"longitude\":0,\"latitude\":0}]}",
+                "{\"payload\":\"CFAB3g==\",\"fields\":{\"lux\":478,\"temperature\":21.28},\"port\":1,\"counter\":127,\"dev_eui\":\"0004A30B001B442B\",\"metadata\":[{\"frequency\":867.5,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":3108144236,\"gateway_time\":\"2016-06-10T12:44:44.121244Z\",\"channel\":5,\"server_time\":\"2016-06-10T12:39:47.520399908Z\",\"rssi\":-108,\"lsnr\":1,\"rfchain\":1,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"008000000000A08E\",\"altitude\":0,\"longitude\":0,\"latitude\":0}]}",
+                "{\"payload\":\"CCAB4Q==\",\"fields\":{\"lux\":481,\"temperature\":20.8},\"port\":1,\"counter\":128,\"dev_eui\":\"0004A30B001B442B\",\"metadata\":[{\"frequency\":867.3,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":1749071548,\"gateway_time\":\"2016-06-10T12:40:09.682166Z\",\"channel\":0,\"server_time\":\"2016-06-10T12:40:09.688752496Z\",\"rssi\":-105,\"lsnr\":9,\"rfchain\":0,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"0000024B08060112\",\"altitude\":20,\"longitude\":4.88671,\"latitude\":52.37357},{\"frequency\":868.1,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":3130325892,\"gateway_time\":\"2016-06-10T12:45:06.299631Z\",\"channel\":0,\"server_time\":\"2016-06-10T12:40:09.698446019Z\",\"rssi\":-103,\"lsnr\":7,\"rfchain\":0,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"008000000000A08E\",\"altitude\":0,\"longitude\":0,\"latitude\":0}]}",
+                "{\"payload\":\"CCAB3g==\",\"fields\":{\"lux\":478,\"temperature\":20.8},\"port\":1,\"counter\":129,\"dev_eui\":\"0004A30B001B442B\",\"metadata\":[{\"frequency\":867.7,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":1771253452,\"gateway_time\":\"2016-06-10T12:40:31.864067Z\",\"channel\":7,\"server_time\":\"2016-06-10T12:40:31.880045768Z\",\"rssi\":-106,\"lsnr\":7.8,\"rfchain\":0,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"0000024B08060112\",\"altitude\":24,\"longitude\":4.88669,\"latitude\":52.3736},{\"frequency\":867.9,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":3152507780,\"gateway_time\":\"2016-06-10T12:45:28.490911Z\",\"channel\":7,\"server_time\":\"2016-06-10T12:40:31.890776325Z\",\"rssi\":-103,\"lsnr\":2.5,\"rfchain\":1,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"008000000000A08E\",\"altitude\":0,\"longitude\":0,\"latitude\":0}]}",
+                "{\"payload\":\"B+8B3g==\",\"fields\":{\"lux\":478,\"temperature\":20.31},\"port\":1,\"counter\":130,\"dev_eui\":\"0004A30B001B442B\",\"metadata\":[{\"frequency\":868.1,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":1793435140,\"gateway_time\":\"2016-06-10T12:40:54.045752Z\",\"channel\":2,\"server_time\":\"2016-06-10T12:40:54.062062752Z\",\"rssi\":-107,\"lsnr\":1.8,\"rfchain\":1,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"0000024B08060112\",\"altitude\":24,\"longitude\":4.88669,\"latitude\":52.3736},{\"frequency\":868.5,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":3174689484,\"gateway_time\":\"2016-06-10T12:45:50.670742Z\",\"channel\":2,\"server_time\":\"2016-06-10T12:40:54.070320627Z\",\"rssi\":-103,\"lsnr\":4.2,\"rfchain\":0,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"008000000000A08E\",\"altitude\":0,\"longitude\":0,\"latitude\":0}]}",
+                "{\"payload\":\"CFAB2w==\",\"fields\":{\"lux\":475,\"temperature\":21.28},\"port\":1,\"counter\":131,\"dev_eui\":\"0004A30B001B442B\",\"metadata\":[{\"frequency\":868.1,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":1815616988,\"gateway_time\":\"2016-06-10T12:41:16.227599Z\",\"channel\":4,\"server_time\":\"2016-06-10T12:41:16.23874608Z\",\"rssi\":-108,\"lsnr\":6.5,\"rfchain\":1,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"0000024B08060112\",\"altitude\":22,\"longitude\":4.88668,\"latitude\":52.37363},{\"frequency\":867.3,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":3196871324,\"gateway_time\":\"2016-06-10T12:46:12.85019Z\",\"channel\":4,\"server_time\":\"2016-06-10T12:41:16.249890951Z\",\"rssi\":-106,\"lsnr\":0,\"rfchain\":1,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"008000000000A08E\",\"altitude\":0,\"longitude\":0,\"latitude\":0}]}",
+                "{\"payload\":\"CIEB2w==\",\"fields\":{\"lux\":475,\"temperature\":21.77},\"port\":1,\"counter\":132,\"dev_eui\":\"0004A30B001B442B\",\"metadata\":[{\"frequency\":868.1,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":1837798684,\"gateway_time\":\"2016-06-10T12:41:38.409292Z\",\"channel\":2,\"server_time\":\"2016-06-10T12:41:38.417045983Z\",\"rssi\":-107,\"lsnr\":-1,\"rfchain\":1,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"0000024B08060112\",\"altitude\":26,\"longitude\":4.88665,\"latitude\":52.37366},{\"frequency\":868.5,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":3219053012,\"gateway_time\":\"2016-06-10T12:46:35.029249Z\",\"channel\":2,\"server_time\":\"2016-06-10T12:41:38.429203587Z\",\"rssi\":-103,\"lsnr\":1.5,\"rfchain\":0,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"008000000000A08E\",\"altitude\":0,\"longitude\":0,\"latitude\":0}]}",
+                "{\"payload\":\"CFAB1g==\",\"fields\":{\"lux\":470,\"temperature\":21.28},\"port\":1,\"counter\":133,\"dev_eui\":\"0004A30B001B442B\",\"metadata\":[{\"frequency\":868.3,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":1859980324,\"gateway_time\":\"2016-06-10T12:42:00.59093Z\",\"channel\":7,\"server_time\":\"2016-06-10T12:42:00.607414107Z\",\"rssi\":-105,\"lsnr\":7.2,\"rfchain\":1,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"0000024B08060112\",\"altitude\":26,\"longitude\":4.88665,\"latitude\":52.37366},{\"frequency\":867.9,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":3241234644,\"gateway_time\":\"2016-06-10T12:46:57.216376Z\",\"channel\":7,\"server_time\":\"2016-06-10T12:42:00.616658714Z\",\"rssi\":-103,\"lsnr\":3.2,\"rfchain\":1,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"008000000000A08E\",\"altitude\":0,\"longitude\":0,\"latitude\":0}]}",
+                "{\"payload\":\"CIEB2A==\",\"fields\":{\"lux\":472,\"temperature\":21.77},\"port\":1,\"counter\":134,\"dev_eui\":\"0004A30B001B442B\",\"metadata\":[{\"frequency\":868.1,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":1882161916,\"gateway_time\":\"2016-06-10T12:42:22.772518Z\",\"channel\":3,\"server_time\":\"2016-06-10T12:42:22.788201533Z\",\"rssi\":-107,\"lsnr\":8.5,\"rfchain\":1,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"0000024B08060112\",\"altitude\":26,\"longitude\":4.88664,\"latitude\":52.37365},{\"frequency\":867.1,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":3263416236,\"gateway_time\":\"2016-06-10T12:47:19.395381Z\",\"channel\":3,\"server_time\":\"2016-06-10T12:42:22.795782285Z\",\"rssi\":-102,\"lsnr\":5,\"rfchain\":1,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"008000000000A08E\",\"altitude\":0,\"longitude\":0,\"latitude\":0}]}",
+                "{\"payload\":\"CFAB1A==\",\"fields\":{\"lux\":468,\"temperature\":21.28},\"port\":1,\"counter\":135,\"dev_eui\":\"0004A30B001B442B\",\"metadata\":[{\"frequency\":868.1,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":1904343524,\"gateway_time\":\"2016-06-10T12:42:44.954125Z\",\"channel\":5,\"server_time\":\"2016-06-10T12:42:44.963518398Z\",\"rssi\":-101,\"lsnr\":-2.8,\"rfchain\":1,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"0000024B08060112\",\"altitude\":22,\"longitude\":4.88668,\"latitude\":52.37358},{\"frequency\":867.5,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":3285597844,\"gateway_time\":\"2016-06-10T12:47:41.57763Z\",\"channel\":5,\"server_time\":\"2016-06-10T12:42:44.978175685Z\",\"rssi\":-106,\"lsnr\":3,\"rfchain\":1,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"008000000000A08E\",\"altitude\":0,\"longitude\":0,\"latitude\":0}]}",
+                "{\"payload\":\"B+8BxA==\",\"fields\":{\"lux\":452,\"temperature\":20.31},\"port\":1,\"counter\":136,\"dev_eui\":\"0004A30B001B442B\",\"metadata\":[{\"frequency\":868.3,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":1926525004,\"gateway_time\":\"2016-06-10T12:43:07.135602Z\",\"channel\":0,\"server_time\":\"2016-06-10T12:43:07.143449737Z\",\"rssi\":-105,\"lsnr\":8.5,\"rfchain\":1,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"0000024B08060112\",\"altitude\":21,\"longitude\":4.88669,\"latitude\":52.37359},{\"frequency\":868.1,\"datarate\":\"SF8BW125\",\"codingrate\":\"4/5\",\"gateway_timestamp\":3307779316,\"gateway_time\":\"2016-06-10T12:48:03.757768Z\",\"channel\":0,\"server_time\":\"2016-06-10T12:43:07.158955052Z\",\"rssi\":-103,\"lsnr\":6,\"rfchain\":0,\"crc\":1,\"modulation\":\"LORA\",\"gateway_eui\":\"008000000000A08E\",\"altitude\":0,\"longitude\":0,\"latitude\":0}]}"
+        };
+
+        List<String> jsonPackets = Arrays.asList(ar);
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(DateTime.class, new DateTimeConverter())
+                .create();
+        for (String packetStr : jsonPackets) {
+            Packet packet = gson.fromJson(packetStr, Packet.class);
+            Payload payload = Payload.fromEncodedPayload(packet.getPayload());
+            mSamplePayloads.add(payload);
+            mSamplePackets.add(packet);
+        }
+    }
+}
