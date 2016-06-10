@@ -1,7 +1,9 @@
 package org.ttn.android.sample;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -78,12 +80,23 @@ public class TTNAndroidSDKSampleActivity extends AppCompatActivity {
         mToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
 
+        // add sample packets to show something
+        mPackets.addAll(SampleData.mSamplePackets);
+        mPayloads.addAll(SampleData.mSamplePayloads);
+
         // initially, setup recycler view to show nodes
         mDataList.setLayoutManager(new LinearLayoutManager(this));
         mDataList.setAdapter(mPacketAdapter);
 
         // setup temperature viewer
         mTempView.setAdapter(mTemperatureAdapter);
+
+        // display dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.sample_data_dialog_title);
+        builder.setMessage(R.string.sample_data_dialog_message);
+        builder.setPositiveButton(android.R.string.ok, null);
+        builder.show();
     }
 
     @Override
@@ -108,10 +121,6 @@ public class TTNAndroidSDKSampleActivity extends AppCompatActivity {
      */
     void subscribe() {
         mProgressBar.setVisibility(View.VISIBLE);
-
-        // clear list from whatever it's in it
-        mPackets.clear();
-        mPacketAdapter.notifyDataSetChanged();
 
         // instantiate a new client
         mTTNMqttClient = new TTNMqttClient(STAGING_HOST, APP_EUI, ACCESS_KEY, "+");
@@ -179,6 +188,5 @@ public class TTNAndroidSDKSampleActivity extends AppCompatActivity {
             }
         });
     }
-
 
 }
