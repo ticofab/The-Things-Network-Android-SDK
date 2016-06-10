@@ -8,10 +8,10 @@ android {
         applicationId "org.ttn.android.sample"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 2
+        versionCode 3
 
         // http://semver.org
-        versionName "2.0.0"
+        versionName "2.0.1"
     }
     buildTypes {
         release {
